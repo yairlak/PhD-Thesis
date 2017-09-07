@@ -1,0 +1,32 @@
+\chapter{Metric learning of phonemes}
+\paragraph{Method A: a least-squares formulation}
+Formulating the problem as a least-squares problem will allow the use of standard tools to solve the problem. We now show how the problem of metric learning as defined above (section 2.2) can be described as a least-squares problem. 
+
+We define a loss function $\mathcal{L}$ that correspond to the optimization problem in Eq(2).
+
+\begin{equation}
+    \mathcal{L} = \sum_{{i} < {j}}{((\bar{p}^i - \bar{p}^j)^TW(\bar{p}^i - \bar{p}^j) - D_{ij})} + \lambda||w||_1^2
+\end{equation}
+
+where L1-regularization is added to the loss function in its second term. Adding L1-regularization has two advantages: first, it mitigates overfitting to the empirical training data. Second, L1-regularization results in sparser solutions, i.e., a larger number of parameters have values equal to zero \citep{Tibshirani1996}. Importantly, in our case, where feature weights are derived from data collected from a perceptual-discrimination task, non-zero weights that endured this penalty are those that are necessary for explaining the measured perceptual distances. Features that have higher weight are therefore more perceptually discriminative. 
+
+Rewriting the first term in the objective function, we get a classic LS formulation in the following matrix notation: $||\widetilde{P}\bar{w} - D||_2^2 + \lambda||w||_1^2$, where $\bar{w}$ is an $n_f^2$-dimensional vector, and $\widetilde{P}$ is an ${n_p \choose 2} \times n_f^2$ matrix. A row of $\widetilde{P}$ corresponds to the distance between the $i^{th}$ and $j^{th}$ phonemes, and a column corresponds to the weight of the $k^{th}$ and $l^{th}$ features from the quadratic form in Eq(1). The elements of $\widetilde{P}$ are therefore of the form: $(p_k^i-p_k^j)(p_l^i-p_l^j)$.
+
+To solve the L1-regularized least-squares problem, we use the LASSO algorithm \citep{Tibshirani1996}. The regularizer size $\lambda$ is determined by comparing predictions of models with different values of $\lambda$'s. Values of $\lambda$ were examined for 18 values in the range $[10^{-3}, 10^5]$. The optimal size of $\lambda$ was determined according to the maximal prediction on a validation set. We refer to this method of learning a metric function as LS.
+
+\paragraph{Method B: a large-margin ranking problem} The goal here is to learn a metric function $d(p^i, p^j)$ as in Eq(1), that obeys the following condition \citep{Chechik2010}: a pair of phonemes ($p^i, p^i_+$) that are perceptually closer than another pair ($p^i, p^i_-$), are also closer according to the learned metric function. Formally, for all triplets of phonemes:
+
+\begin{equation}
+\forall{p^i, p^i_+, p^i_-}: D(p^i, p^i_+)<D(p^i, p^i_-) \rightarrow d(p^i, p^i_+)<d(p^i, p^i_-)
+\end{equation}
+
+The hinge-loss function to the constraint in Eq(3) together with a margin is:
+\begin{equation}
+    l_W(p^i, p^i_+, p^i_-) = max\{0, 1 + d(p^i, p^i_+) - d(p^i, p^i_-)\}
+\end{equation}
+
+The optimization problem and the algorithm are then solved as in \citet{Chechik2010}. We refer to this method as OASIS.
+
+Note the difference between the LS method and OASIS. In the LS method, the exact values from the empirical data are used to learn the parameters of the model $W$. In contrast, in OASIS, the data values are used only for ranking the empirical distances between phonemes. It is an empirical matter which of the two methods better fits our problem, we therefore explore metric learning of phonemes with both LS and OASIS.
+
+\paragraph{Diagonal constraint} In addition, we test a version of the above two methods when a diagonal-constraint on the parameter matrix $W$ is added. That is, the off-diagonal weights in $W$ are set to zero. The advantage of adding a diagonal constraint is that the model has fewer parameters and it is thus less prone to overfitting. On the other hand, too simple a model may not be able to capture the full structure of the data. We test each method with and without a diagonal constraint. 

@@ -1,0 +1,268 @@
+%% ----------------------------------------------------------------
+%% Thesis.tex -- MAIN FILE (the one that you compile with LaTeX)
+%% ---------------------------------------------------------------- 
+
+% Set up the document
+\documentclass[a4paper, 12pt, oneside]{Thesis}  % Use the "Thesis" style, based on the ECS Thesis style by Steve Gunn
+\graphicspath{Figures/}  % Location of the graphics files (set up for graphics to be in PDF format)
+\usepackage{verbatim}  % Needed for the "comment" environment to make LaTeX comments
+\usepackage{vector}  % Allows "\bvec{}" and "\buvec{}" for "blackboard" style bold vectors in maths
+\usepackage[pass]{geometry}
+\usepackage{titlesec}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[round, semicolon, authoryear]{natbib}
+%\usepackage{apacite}
+\bibliographystyle{apalike}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{bbm}
+\usepackage{amsfonts}
+\usepackage{tipa}
+\usepackage[scientific-notation=true]{siunitx}
+\usepackage{pdflscape}
+\usepackage{afterpage}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{capt-of}% or use the larger `caption` package
+\usepackage[toc,page]{appendix}
+\hypersetup{urlcolor=blue, colorlinks=true}  % Colours hyperlinks in blue, but this can be distracting if there are many links.
+\usepackage[font=small,format=plain,labelfont=bf,textfont=normal,justification=justified,singlelinecheck=false]{caption}
+
+%% ----------------------------------------------------------------
+\begin{document}
+
+\fontfamily{david}\selectfont
+\frontmatter      % Begin Roman style (i, ii, iii, iv...) page numbering
+
+% Set up the Title Page
+\title{A computational study of phoneme representations and errors in reading}
+\authors  {\texorpdfstring
+            {\href{yair.lakretz@gmail.com}{Yair Lakretz}}
+            {Yair Lakretz}
+            }
+\addresses  {\groupname\\\deptname\\\univname}  % Do not change this here, instead these must be set in the "Thesis.cls" file, please look through it instead
+\date       {\today}
+\subject    {}
+\keywords   {}
+
+\maketitle
+%% ----------------------------------------------------------------
+
+\setstretch{1.5}  % It is better to have smaller font and larger line spacing than the other way round
+
+% Define the page headers using the FancyHdr package and set up for one-sided printing
+\fancyhead{}  % Clears all page headers and footers
+\rhead{\thepage}  % Sets the right side header to show the page number
+\lhead{}  % Clears the left side page header
+
+\pagestyle{fancy}  % Finally, use the "fancy" page style to implement the FancyHdr headers
+
+%% ----------------------------------------------------------------
+% Declaration Page required for the Thesis, your institution may give you a different text to place here
+%\Declaration{
+
+%\addtocontents{toc}{\vspace{1em}}  % Add a gap in the Contents, for aesthetics
+
+%I declare that this thesis and the work presented in it are my own. I confirm that:
+
+%\begin{itemize} 
+%\item[\tiny{$\blacksquare$}] This work was done wholly or mainly while in candidature for a research degree at this University.
+ 
+%\item[\tiny{$\blacksquare$}] Where any part of this thesis has previously been submitted for a degree or any other qualification at this University or any other institution, this has been clearly stated.
+ 
+%\item[\tiny{$\blacksquare$}] Where I have consulted the published work of others, this is always clearly attributed.
+ 
+%\item[\tiny{$\blacksquare$}] Where I have quoted from the work of others, the source is always given. With the exception of such quotations, this thesis is entirely my own work.
+ 
+%\item[\tiny{$\blacksquare$}] I have acknowledged all main sources of help.
+ 
+%\item[\tiny{$\blacksquare$}] Where the thesis is based on work done by myself jointly with others, I have made clear exactly what was done by others and what I have contributed myself.
+%\\
+%\end{itemize}
+ 
+ 
+%Signed:\\
+%\rule[1em]{25em}{0.5pt}  % This prints a line for the signature
+ 
+%Date:\\
+%\rule[1em]{25em}{0.5pt}  % This prints a line to write the date
+%}
+%\clearpage  % Declaration ended, now start a new page
+
+%% ----------------------------------------------------------------
+% The "Funny Quote Page"
+%\pagestyle{empty}  % No headers or footers for the following pages
+
+%\null\vfill
+% Now comes the "Funny Quote", written in italics
+%\textit{``''}
+
+%\begin{flushright}
+%If the quote is taken from someone, their name goes here
+%\end{flushright}
+
+%\vfill\vfill\vfill\vfill\vfill\vfill\null
+%\clearpage  % Funny Quote page ended, start a new page
+%% ----------------------------------------------------------------
+% The Abstract Page
+%\addtotoc{Abstract}  % Add the "Abstract" page entry to the Contents
+%\abstract{
+%\addtocontents{toc}{\vspace{1em}}  % Add a gap in the Contents, for aesthetics
+%\input{Chapters/abstract.tex}
+%}
+
+%\clearpage  % Abstract ended, start a new page
+%% ----------------------------------------------------------------
+
+%\setstretch{1.3}  % Reset the line-spacing to 1.3 for body text (if it has changed)
+
+% The Acknowledgements page, for thanking everyone
+%\acknowledgements{
+\addtocontents{toc}{\vspace{1em}}  % Add a gap in the Contents, for aesthetics
+
+%\input{Chapters/acknowledgements.tex}
+
+%}
+\clearpage  % End of the Acknowledgements
+%% ----------------------------------------------------------------
+
+\pagestyle{fancy}  %The page style headers have been "empty" all this time, now use the "fancy" headers as defined before to bring them back
+
+
+%% ----------------------------------------------------------------
+\lhead{\emph{Contents}}  % Set the left side page header to "Contents"
+\tableofcontents  % Write out the Table of Contents
+
+%% ----------------------------------------------------------------
+\lhead{\emph{List of Figures}}  % Set the left side page header to "List if Figures"
+\listoffigures  % Write out the List of Figures
+
+%% ----------------------------------------------------------------
+\lhead{\emph{List of Tables}}  % Set the left side page header to "List of Tables"
+\listoftables  % Write out the List of Tables
+
+%% ----------------------------------------------------------------
+\setstretch{1.5}  % Set the line spacing to 1.5, this makes the following tables easier to read
+%\clearpage  % Start a new page
+%\lhead{\emph{Abbreviations}}  % Set the left side page header to "Abbreviations"
+%\listofsymbols{ll}  % Include a list of Abbreviations (a table of two columns)
+%{
+% \textbf{Acronym} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or \\
+%\textbf{LAH} & \textbf{L}ist \textbf{A}bbreviations \textbf{H}ere \\
+
+%}
+
+%% ----------------------------------------------------------------
+% End of the pre-able, contents and lists of things
+% Begin the Dedication page
+
+\setstretch{1.3}  % Return the line spacing back to 1.3
+
+\pagestyle{empty}  % Page style needs to be empty for this page
+%\dedicatory{For/Dedicated to/To my\ldots}
+
+\addtocontents{toc}{\vspace{2em}}  % Add a gap in the Contents, for aesthetics
+
+
+%% ----------------------------------------------------------------
+\mainmatter	  % Begin normal, numeric (1,2,3...) page numbering
+\pagestyle{fancy}  % Return the page headers back to the "fancy" style
+
+%\titleformat
+%{\chapter} % command
+%[display] % shape
+%{\bfseries\Large\itshape} % format
+%{} % label
+%{0.5ex} % sep
+%{
+%    \rule{\textwidth}{1pt}
+%    \vspace{1ex}
+%    \centering
+%} % before-code
+%[
+%\vspace{-0.5ex}%
+%\rule{\textwidth}{0.3pt}
+%] % after-code
+\titleformat{\chapter}[display]
+{\normalfont%
+    \tiny% %change this size to your needs for the first line
+    \bfseries}{}{20pt}{%
+    \LARGE %change this size to your needs for the second line
+    }
+
+
+%% General Introduction
+\lhead{\emph{General Introduction}}
+\input{Chapters/General_Intro/General_Intro.tex}
+
+%% Chapter 1
+\lhead{\emph{Chapter 1: Probabilistic Graphical Models of Dyslexia}}
+\input{Chapters/Ch1/Chapter1KDD}
+\titleformat{\chapter}[display]
+{\normalfont%
+    \huge% %change this size to your needs for the first line
+    \bfseries}{\chaptertitlename\ \thechapter}{20pt}{%
+    \Huge %change this size to your needs for the second line
+    }
+
+\titleformat{\chapter}[display]
+{\normalfont%
+    \tiny% %change this size to your needs for the first line
+    \bfseries}{}{20pt}{%
+    \LARGE %change this size to your needs for the second line
+    }
+%% Chapter 2
+\lhead{\emph{Chapter 2: The Perceptually Discriminative Power of Subphonemic Features}}
+%\input{Chapters/Ch2/abstract3.tex}
+%\input{Chapters/Ch2/Intro3.tex}
+\input{Chapters/Ch2/Intro5.tex}
+\input{Chapters/Ch2/methods.tex}
+\input{Chapters/Ch2/The_data.tex}
+\input{Chapters/Ch2/results.tex}
+\input{Chapters/Ch2/discussion2.tex}
+{\normalfont%
+    \huge% %change this size to your needs for the first line
+    \bfseries}{\chaptertitlename\ \thechapter}{20pt}{%
+    \Huge %change this size to your needs for the second line
+    }
+
+\titleformat{\chapter}[display]
+{\normalfont%
+    \Large% %change this size to your needs for the first line
+    \bfseries}{}{20pt}{%
+    \LARGE %change this size to your needs for the second line
+    }
+%% Chapter 3
+\lhead{\emph{Chapter 3: The Functional Organization of Phonemes in the Superior Temporal Gyrus (STG) as Revealed by Spiking Activity}}
+\input{Chapters/Ch3/Chapter3.tex}
+
+%% General Discussion
+\lhead{\emph{General Discussion}}
+\input{Chapters/General_Discussion/General_Discussion.tex}
+
+
+%% ----------------------------------------------------------------
+% Now begin the Appendices, including them as separate files
+
+\addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
+
+%\appendix % Cue to tell LaTeX that the following 'chapters' are Appendices
+
+%\input{Appendices/AppendixA}	% Appendix Title
+
+%\input{Appendices/AppendixB} % Appendix Title
+
+%\input{Appendices/AppendixC} % Appendix Title
+
+\addtocontents{toc}{\vspace{2em}}  % Add a gap in the Contents, for aesthetics
+\backmatter
+
+%% ----------------------------------------------------------------
+\label{References}
+\lhead{\emph{References}}  % Change the left side page header to "Bibliography"
+\bibliography{bib_thesis.bib}  % The references (bibliography) information are stored in the file named 
+%\printbibliography
+
+
+\end{document}  % The End

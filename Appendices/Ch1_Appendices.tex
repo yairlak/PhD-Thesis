@@ -1,0 +1,83 @@
+\chapter{Derivation of the update rule}
+In this section, we expand on the derivation of the update rule of the Gibbs sampler (section 1.4.2). The derivation we use follows similar lines as the ones described in \citet{gs04}, with the modification required for our dyslexia-model (figure 1C):
+
+The joint distribution of the model is given by:
+%\begin{equation*}
+\begin{equation*}
+\begin{split}
+&p(\bar{e},\bar{w},\bar{d},\Theta,\Phi;\alpha,\beta) = \\
+&p(\Phi\mid\beta)p(\beta)\prod_{s = 1}^S p(\bar{e}_s\mid\bar{d}_s, \bar{w}_s) p(\bar{w}_s)p(\bar{d}_s\mid\Theta_s)\\ &p(\Theta_s\mid\alpha_s)p(\alpha_s) = \\
+&p(\Phi\mid\beta) p(\beta) \prod_{s = 1}^S \prod_{i=1}^N p(e_{i, s} \mid w_{i, s}, d_{i, s}) p(d_{i, s}\mid\Theta_s) p(\Theta_s\mid\alpha_s)\\
+&p(w_{i, s}) p(\alpha_s)
+\end{split}
+\end{equation*}
+Given that $p(\Theta_s\mid\alpha_s)$ and $p(\Phi\mid\beta)$ are Dirichlet priors, and that $p(w_{i, s})$ are constant, rewriting the expression for the joint distribution, we get:
+\begin{equation*}
+\begin{split}
+&p(\bar{e}, \bar{w}, \bar{d}, \Theta, \Phi; \alpha, \beta) \propto \\
+&\prod_{s=1}^S \prod_{w=1}^W \prod_{e=1}^E \prod_{d = 1}^D \phi_{wed}^{C_{wed} + \beta_{wed} - 1} \theta_{ds}^{C_{ds} + \alpha_{ds} - 1}
+\end{split}
+\end{equation*}
+Integrating out $\theta$ and $\phi$, we get:
+\begin{equation*}
+\begin{split}
+&p(\bar{e},\bar{w},\bar{d};\alpha,\beta) \propto \\
+&\iint \prod_{s=1}^S \prod_{w=1}^W \prod_{e=1}^E \prod_{d = 1}^D  \phi_{wed}^{C_{wed} + \beta_{wed} - 1} \theta_{ds}^{C_{ds} + \alpha_{ds} - 1} \mathrm{d}\theta \mathrm{d}\phi = \\
+&\int \prod_{s=1} \theta_{ds}^{C_{ds} + \alpha_{ds} - 1} \mathrm{d}\theta \prod_{w=1}^W \prod_{d = 1}^D \int\prod_{e=1}^E \phi_{wed}^{C_{wed} + \beta_{wed} - 1} \mathrm{d}\phi = \\
+&\frac{\prod_{d = 1}^D\Gamma(C_{ds} + \alpha_{ds})}{\Gamma(\sum_{d' = 1}^D (C_{d's} + \alpha_{d's}))}\prod_{w=1}^W\prod_{d = 1}^D \frac{\prod_{e = 1}^E\Gamma(C_{wed} + \beta_{wed})}{\Gamma(\sum_{e' = 1}^E (C_{we'd} + \beta_{we'd}))}
+\end{split}
+\end{equation*}
+The posterior distribution for the $i^{th}$ dyslexic state can now be expressed using the expression for the joint distribution:
+\begin{equation*}
+\begin{split}
+&p(d_i=d\mid w_i=w, e_i=e, d_{-i}, w_{-i}, e_{-i}; \alpha, \beta) \propto \\
+&\frac{p(\bar{e},\bar{w},\bar{d};\alpha,\beta)}{p(\bar{e}_{-i},\bar{w}_{-i},\bar{d}_{-i};\alpha,\beta)}
+\end{split}
+\end{equation*}
+The numerator and denominator of the above fraction, differ only by the counts having the $i^{th}$ pair of word-error in them, whereas all other terms cancel out. The posterior distribution thus results in the following update rule (section 4.2.3):
+\begin{equation*}
+\begin{split}
+&p(d_i=d\mid w_i=w, e_i=e, d_{-i}, w_{-i}, e_{-i}, \alpha, \beta) \propto \\
+&\frac{ C_{wed, -i} + \beta_{wed} } {\sum_{e'} [C_{we'd, -i} + \beta_{we'd}] } \frac{ C_{ds, -i} + \alpha_{ds} } {\sum_{d'}[ C_{d's, -i} + \alpha_{d's}] }
+\end{split}
+\end{equation*}
+
+
+
+\chapter{List of error-types}
+The list of all error-types used to encode the data is shown in table 2. Possible dyslexia-types which may be responsible for each error are listed in the second column.
+
+\begin{table}
+
+\caption{List of error types and possible responsible dyslexia types. NS - Normal State; LPD - Letter Position Dyslexia; VD - Visual Dyslexia; VLD - Vowel Letter Dyslexia; AD - Attentional Dyslexia; ND - Neglect Dyslexia; Other - Other types of dyslexia, such as phonological output buffer dyslexia or deep dyslexia, which are diagnosed based on additional post-tests.}
+
+\centering
+\begin{tabular}{|c|c|c|} \hline
+
+& Error type & Dyslexia type\\
+\hline
+1 & Correct response & NS\\
+2 & Consonant migration & LPD, VD\\
+3 & Consonant omission & VD\\
+4 & Consonant addition & VD\\
+5 & Consonant substitution & VD\\
+6 & Vowel migration & VLD, LPD, VD\\
+7 & Vowel omission & VLD, VD\\
+8 & Vowel addition & VLD, VD\\
+9 & Vowel substitution & VLD, VD\\
+10 & Semantic error & Other\\
+11 & Morphological error & Other\\
+12 & Surface error & SD\\
+13 & Visual error (left side) & ND, VD\\
+14 & Function word error & Other\\
+15 & Letter doubling, or double omission & LPD, VD\\
+16 & Attentional omission & AD\\
+17 & Attentional vowel letter error & AD, VLD\\
+18 & Attentional migration between words & AD\\
+19 & Migration of end letters & VD\\
+
+\hline\end{tabular}
+
+%\balancecolumns
+\bigskip
+\end{table}

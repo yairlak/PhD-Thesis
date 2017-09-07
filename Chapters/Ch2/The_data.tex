@@ -1,0 +1,47 @@
+\section{The data}
+Confusion errors have traditionally been used as a measure for perceptual phoneme similarity, based on the idea that the more confusable two phonemes are the more similar they are. Three phoneme-confusion datasets are explored in this study: (1) the dataset from \citet{NicelyMiller1955}, (2) The dataset from \citet{Luce1987}, and (3) results from our experiment in Hebrew.
+
+\subsection{The Nicely and Miller dataset} The classic work by \citet{NicelyMiller1955} analyzed auditory confusion between pairs of 16 consonant phonemes of English with added white noise at different signal-to-noise ratios (SNRs). The noise-corrupted phonemes were presented to subjects in a classification-task paradigm, in a consonant-vowel (CV) form, and the effect of low- and high-pass filtering on phoneme confusion was explored. The resulting confusion matrices from the experiments are provided in their paper. In what follows, we refer to this dataset as the \textit{N\&M dataset}, focusing on their -12dB SNR confusion matrix. Using tools from information theory, N\&M analysed the confusion matrices to see how subphonemic features - voicing, nasality, affrication, duration and place of articulation - affect phoneme confusion, describing subphonemic features as separated information-transfer channels. Their results suggest that the voicing and nasality features are less affected by random noise than the other three features tested: affrication, which distinguishes between /f\textipa{T}s\textipa{S}v\textipa{D}z\textipa{Z}/ and /ptkbdgmn/; duration, which distinguishes between /s\textipa{S}z\textipa{Z}/ and the other phonemes; and place of articulation with three-valued classification - front, middle and back. Affrication and duration were found to be more affected by random noise, but less than the place of articulation feature, which was the most affected by random noise. 
+
+\subsection{The Luce dataset} The work carried by \citet{Luce1987} extended the work by N\&M in several aspects. First, the segment inventory was extended from 16 phonemes to 24 phonemes (see Table A.1 for a full list of phonemes). Second, it used words instead of CV syllables, which is a more natural way of presenting stimuli. Words in the experiment only differed by the initial or the final consonant. Auditory confusion was analyzed for these two cases - initial and final - separately. Similarly to N\&M, auditory confusion was tested at different levels of SNR, using white noise. In what follows, we refer to this dataset as the \textit{Luce dataset}. To have higher confusion rate, we focused on initial-position confusions at the highest available noise level \citep{Redford1999}.
+
+\subsection{A new Hebrew dataset}
+We assess phoneme similarity from confusion rates between Hebrew phonemes by native speakers. Table 2.2 provides the resulting confusion matrix for all phonemes. The set of phonemes included 19 phonemes (see Table 2.1 for the full list). We used an AXB paradigm with CV syllables at -12dB SNR, as in the N\&M dataset. In what follows, we refer to this dataset as the \textit{Hebrew dataset}.
+
+\begin{landscape}
+\section{Perceptual confusion in Hebrew}
+\begin{table}[H]
+\centering
+ \begin{tabular}{|c||c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c||c|}
+\hline
+
+Ph  & \textipa{b}	&	\textipa{g}	&	\textipa{d}	&	\textipa{h}	&	\textipa{v}	&	\textipa{z}	&	\textipa{X}	&	\textipa{t}	&	\textipa{j}	&	\textipa{k}	&	\textipa{l}	&	\textipa{m}	&	\textipa{n}	&	\textipa{s}	&	\textipa{f}	&	\textipa{p}	&	\textipa{ts}	&	\textipa{K}	&	\textipa{S} & Total \\
+\hline
+\hline
+b	&	282	&	8	&	4	&	6	&	14	&	10	&	15	&	10	&	4	&	14	&	3	&	4	&	4	&	11	&	9	&	5	&	10	&	4	&	18	&	435 \\
+g	&	8	&	279	&	5	&	2	&	8	&	6	&	6	&	12	&	4	&	5	&	6	&	2	&	4	&	5	&	6	&	4	&	0	&	5	&	18	&	385 \\
+d	&	10	&	12	&	213	&	7	&	7	&	8	&	10	&	4	&	3	&	15	&	3	&	0	&	9	&	7	&	10	&	6	&	12	&	1	&	9	&	346 \\
+h	&	8	&	2	&	3	&	385	&	5	&	4	&	9	&	7	&	1	&	11	&	0	&	19	&	9	&	1	&	7	&	9	&	7	&	15	&	8	&	510 \\
+v	&	5	&	2	&	1	&	6	&	215	&	7	&	2	&	10	&	5	&	3	&	4	&	5	&	1	&	10	&	3	&	0	&	5	&	9	&	10	&	303 \\
+z	&	7	&	8	&	11	&	4	&	6	&	250	&	3	&	8	&	3	&	4	&	5	&	8	&	5	&	12	&	2	&	0	&	5	&	9	&	3	&	353 \\
+\textipa{X}	&	13	&	7	&	7	&	5	&	12	&	5	&	323	&	4	&	2	&	6	&	3	&	6	&	7	&	2	&	2	&	6	&	7	&	2	&	1	&	420 \\
+t	&	2	&	6	&	17	&	0	&	2	&	4	&	3	&	310	&	2	&	0	&	6	&	0	&	0	&	6	&	1	&	6	&	10	&	5	&	6	&	386 \\
+j	&	1	&	6	&	6	&	1	&	4	&	6	&	1	&	1	&	380	&	1	&	8	&	2	&	4	&	3	&	0	&	0	&	1	&	1	&	4	&	430 \\
+k	&	7	&	12	&	0	&	4	&	28	&	9	&	3	&	15	&	8	&	292	&	4	&	1	&	8	&	16	&	10	&	5	&	13	&	4	&	13	&	452 \\
+l	&	4	&	1	&	4	&	3	&	1	&	5	&	5	&	2	&	3	&	1	&	414	&	5	&	1	&	5	&	0	&	1	&	9	&	2	&	3	&	469 \\
+m	&	3	&	2	&	5	&	10	&	4	&	0	&	7	&	1	&	2	&	3	&	1	&	307	&	2	&	3	&	6	&	0	&	1	&	3	&	2	&	362 \\
+n	&	2	&	2	&	1	&	0	&	1	&	6	&	3	&	3	&	2	&	1	&	1	&	11	&	279	&	0	&	1	&	0	&	2	&	10	&	2	&	327 \\
+s	&	8	&	25	&	10	&	4	&	5	&	3	&	6	&	7	&	7	&	6	&	3	&	4	&	6	&	301	&	8	&	6	&	20	&	6	&	17	&	452 \\
+f	&	5	&	4	&	3	&	1	&	8	&	7	&	4	&	11	&	5	&	8	&	1	&	3	&	5	&	6	&	309	&	11	&	3	&	2	&	5	&	401 \\
+p	&	7	&	4	&	1	&	5	&	10	&	3	&	12	&	2	&	2	&	7	&	1	&	14	&	10	&	5	&	5	&	370	&	2	&	2	&	1	&	463 \\
+ts	&	8	&	30	&	8	&	2	&	11	&	1	&	5	&	9	&	10	&	1	&	2	&	2	&	6	&	0	&	9	&	7	&	343	&	5	&	10	&	469 \\
+\textipa{K}	&	1	&	7	&	3	&	0	&	9	&	0	&	1	&	1	&	5	&	6	&	5	&	8	&	2	&	2	&	4	&	9	&	1	&	389	&	1	&	454 \\
+\textipa{S}	&	9	&	9	&	23	&	5	&	7	&	10	&	1	&	7	&	5	&	7	&	7	&	4	&	8	&	8	&	4	&	5	&	11	&	6	&	278	&	414 \\
+\hline
+\hline
+Total	&	390	&	426	&	325	&	450	&	357	&	344	&	419	&	424	&	453	&	391	&	477	&	405	&	370	&	403	&	396	&	450	&	462	&	480	&	409	&	7831 \\
+ \hline
+ \end{tabular}
+\caption{Phoneme confusion in Hebrew between 19 phonemes (SNR -12, AXB paradigm). Each value in the matrix represents the confusion $C(i,j)$, which is the number of times that a phoneme in row $i$ was perceived as the phoneme in column $j$.}
+\end{table}
+\end{landscape}
