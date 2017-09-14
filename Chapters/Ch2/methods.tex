@@ -1,14 +1,14 @@
 \section{Methods}
-We describe the learning of a metric function given a feature theory and a phoneme-similarity dataset. Section 2.2.1 describes phoneme representations in feature space. Section 2.2.2 describes different methods for learning optimal mappings. Finally, Section 2.2.3 describes phoneme-confusion datasets that are used in this study, and the way perceptual distances were estimated.
+We describe learning a metric given a feature set and a phoneme-similarity dataset. Section 2.2.1 describes phoneme representations in feature space. Section 2.2.2 describes different methods for learning optimal mappings. Finally, Section 2.2.3 describes phoneme-confusion datasets that are used in this study, and the way perceptual distances were estimated.
 
-\subsection{The representations of phonemes in feature space}
+\subsection{Representing phonemes in feature space}
 We study phoneme representations in the feature space based on: (a) Articulatory features, and (b) Phonological features. See Table 2.1 for the full list of phonemes.
 
 \paragraph{Articulatory features} The first representation scheme uses 14 binary features, based on articulatory features: six place features - labial, dental, alveolar, palatal, velar and glottal, ordered according to the place along the vocal tract (Figure 1B); Seven manner features - plosive, fricative, affricate, lateral, rhotic, nasal, glide, ordered by sonority; And a single voicing feature. As an example, the labial-plosive-unvoiced /p/ is represented  as (1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0), where the first six components are for place of articulation, the next seven components are for manner and the last vector component is for voicing. Another example, the alveolar-nasal-voiced /n/ is represented as (0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1).
 
 \paragraph{Phonological features} Phonemes are represented along 12 binary phonological features: consonantal, continuant, strident, voicing, nasality, dorsal, anterior, labial, coronal, distributed and lateral. Continuing with the above examples, /p/ is represented here as (1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0); and /n/ is represented as (1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0). \mbox{} \\
 
-Both representation schemes include the minimal set of features that is required to distinguish among all phonemes in the English and Hebrew datasets. Adding more features introduces additional redundancy among the features. For example, to distinguish between the sets of phonemes in the datasets, the sonority feature is not required in addition to the above list of features. Adding it would introduce redundancy with, e.g., the voicing feature, which might reduce the predictive power of the metric function and its interpretability.
+Both representation schemes include the minimal set of features that is required to distinguish among all phonemes in the English and Hebrew datasets. Adding more features introduces redundancy among the features. For example, to distinguish between the sets of phonemes in the datasets, the sonority feature is not required in addition to the above list of features. Adding it would introduce redundancy with, e.g., the voicing feature, which might reduce the predictive power of the metric function and its interpretability.
 
 
 \begin{landscape}% Landscape page
@@ -62,75 +62,77 @@ $j^{\star\ddagger}$	&	-	&	+	&	-	&	-	&	+	&	-	&	-	&	-	&	-	&	+	&	+	&	-	&	-	&	-	&	-	
 \end{landscape}
 
 \subsection{Metric learning}
-We explore two ways to learn a metric function \footnote{See \citet{Kulis2012} for a review of metric learning methods in Machine Learning used for various types of datasets.}: (1) viewing the problem as a least-squares problem (LS) and (2) viewing the problem as a large-margin ranking problem (OASIS by \citet{Chechik2010}). We begin by providing a formal definition of the problem, describing the terms, variables and parameters of the proposed model.
+We explore two approaches to learn a metric function \citep{Kulis2012}: (1) viewing the problem as a least-squares problem and (2) viewing the problem as a large-margin ranking problem \citep{Chechik2010}. We begin by providing a formal definition of the problem, describing the terms, variables and parameters of the proposed model.
 
-Let A be a set, a metric function $d: A \times A \to \mathbb{R}$ is a non-negative symmetric function over pairs of elements of the set, which assigns a value (a distance) to every pair in the set. A metric function satisfies the triangle inequality and for every element $x$ in A: $d(x, x) = 0$.
+Let $A$ be a set, a metric function $d: A \times A \to \mathbb{R}$ is a non-negative symmetric function over pairs of elements of $A$, which assigns a value (a distance) to every pair in the set, and satisfies the triangle inequality and that for every element $x$ in A: $d(x, x) = 0$.
 
-In our case, the elements of the set are phonemes $\{\bar{p}^i\}_i^{n_p}$, where $n_p$ is the number of phonemes. We describe each phoneme as a vector of size $n_f$, according to the number of features and define the following metric $d_{ij}(\bar{p}^i, \bar{p}^j)$ over pairs of phonemes:
+In our case, the elements of the set are phonemes $\{p^1, ..., p^{n_p}\}$, where $n_p$ is the number of phonemes. We describe each phoneme as a vector of size $n_f$, $\bar{p}^i \in \mathbb{R} ^{n_f}$, and define the following metric $d_{ij}(\bar{p}^i, \bar{p}^j)$ over pairs of phonemes:
 
 \begin{equation}
-    d_{ij}(\bar{p}^i, \bar{p}^j) = (\bar{p}^i - \bar{p}^j)^T W (\bar{p}^i - \bar{p}^j)
+    d_{ij}(\bar{p}^i, \bar{p}^j) = (\bar{p}^i - \bar{p}^j)^T W (\bar{p}^i - \bar{p}^j) \quad ,
 \end{equation}
 
-where, $W \in \mathbb{R} ^{n_f \times n_f}$ is a real-valued matrix. This function is a proper metric since it satisfies the symmetry condition, the triangle inequality, and the distance between a phoneme to itself is always zero. If $W$ is a positive semidefinite (PSD) matrix it can be decomposed such that $W = \widetilde{W}^T\widetilde{W}$, and the metric function can then be described as defining a mapping $\widetilde{W}$ over the feature space. The right-hand side of Eq(1) describes a distance between mapped phonemes, since $\widetilde{W}\bar{p}_i$ represents a mapped phoneme, and the square Euclidean distance between a pair of mapped phonemes is therefore: $||\widetilde{W}\bar{p}^i - \widetilde{W}\bar{p}^j||^2 = (\bar{p}^i - \bar{p}^j)^T\widetilde{W}^T\widetilde{W}(\bar{p}^i - \bar{p}^j)$.
+where $W \in \mathbb{R} ^{n_f \times n_f}$ is a positive semi-definite (PSD) real-valued matrix. This function is a proper metric since it satisfies all conditions: non-negativity (PSD), symmetry, the triangle inequality, and that the distance between a phoneme to itself is always zero. 
 
-The free parameters of the model are the elements of $W$. Given a set of perceived distances ${D_{ij}}$ between phonemes, as measured in an experiment, an optimal set of model parameters $W^\ast$ would bring the theoretical distances $d_{ij}$, as predicted by the model, as close as possible to the empirical ones. Formally, we define the optimization problem:
+Geometrically, this metric can be described as: (1) performing a linear mapping on a given pair of vectors from the feature space; and (2) calculating the square Euclidean distance between the results. To see this, note that a PSD matrix $W$ can be decomposed such that $W = \widetilde{W}^T\widetilde{W}$. Given a pair of phoneme vectors, $\bar{p}^i$ and $\bar{p}^i$, the mapped vectors are $\widetilde{W}\bar{p}^i$ and $\widetilde{W}\bar{p}^i$, and the square Euclidean distance between a pair of mapped phonemes is therefore: $||\widetilde{W}\bar{p}^i - \widetilde{W}\bar{p}^j||^2 = (\bar{p}^i - \bar{p}^j)^T\widetilde{W}^T\widetilde{W}(\bar{p}^i - \bar{p}^j)$, which is the right-hand side of Eq(2.1).
+
+The free parameters of the model are the elements of $W$. Given a set of perceived distances ${D_{ij}}$ between phonemes, as measured in an experiment, an optimal set of model parameters $W^\ast$ would bring the model distances $d_{ij}$ as close as possible to the empirical distances $D_{ij}$. Formally, we define the optimization problem:
 
 \begin{equation}
     W^\ast = \min_{W \in S^n_+}{{\sum_{{i} < {j}}{(d_{ij} - D_{ij})^2}}},
 \end{equation}
 
-where the sum is over all ${n_p \choose 2}$ pairs of phonemes, and $S^n_+$ denotes the set of $n \times n$ PSD matrices. We describe two methods to solve the optimization problem. The first reduces the problem into a least-squares (LS) problem, the second reduces it into a large-margin ranking problem (OASIS, \citet{Chechik2010}). We also test a variant of each of the methods, by adding a diagonal constraint on the weight matrix (section 2.2.2.3), thus having four methods in total. We refer to these four ways of learning a metric function: LS, diagonal-LS, OASIS, diagonal-OASIS.
+where the sum is over all ${n_p \choose 2}$ pairs of phonemes, and $S^n_+$ denotes the set of $n \times n$ PSD matrices. We describe below two methods to solve the optimization problem. The first reduces the problem into a least-squares (LS) problem, the second reduces it into a large-margin ranking problem (OASIS, \citealp{Chechik2010}). We also test a variant of each of the methods, by adding a diagonal constraint on the weight matrix (section 2.2.2.3), thus having four methods in total. We refer to these four ways of learning a metric function: LS, diagonal-LS, OASIS, diagonal-OASIS.
 
 \subsubsection{Method A: a least-squares formulation}
-Formulating the problem as a least-squares problem will allow the use of standard tools to solve the problem. We now show how the problem of metric learning as defined above (section 2.2) can be described as a least-squares problem. 
+Formulating the problem as a least-squares problem will allow the use of standard tools to solve the problem. We now show how the problem of metric learning as defined in section 2.2.2, can be described as a least-squares problem:
 
-We define a loss function $\mathcal{L}$ that correspond to the optimization problem in Eq(2).
+We define a loss function $\mathcal{L}$ that correspond to the optimization problem in Eq(2.2).
 
 \begin{equation}
-    \mathcal{L} = \sum_{{i} < {j}}{((\bar{p}^i - \bar{p}^j)^TW(\bar{p}^i - \bar{p}^j) - D_{ij})} + \lambda||w||_1^2
+    \mathcal{L} = \sum_{{i} < {j}}{((\bar{p}^i - \bar{p}^j)^TW(\bar{p}^i - \bar{p}^j) - D_{ij})} + \lambda||w||_1^2 \quad ,
 \end{equation}
 
-where L1-regularization is added to the loss function in its second term. Adding L1-regularization has two advantages: first, it mitigates overfitting to the empirical training data. Second, L1-regularization results in sparser solutions, i.e., a larger number of parameters have values equal to zero \citep{Tibshirani1996}. Importantly, in our case, where feature weights are derived from data collected from a perceptual-discrimination task, non-zero weights that endured this penalty are those that are necessary for explaining the measured perceptual distances. Features that have higher weight are therefore more perceptually discriminative. 
+where L1-regularization is added to the loss function in its second term. Adding L1-regularization has two advantages. First, it mitigates overfitting to the empirical training data. Second, L1-regularization results in sparser solutions, i.e., a larger number of parameters have values equal to zero \citep{Tibshirani1996}. Importantly, in our case, where feature weights are derived from data collected from a perceptual-discrimination task, non-zero weights that endured this penalty are those that are necessary for explaining the measured perceptual distances. Features that have higher weight are therefore more perceptually discriminative. 
 
-Rewriting the first term in the objective function, we get a classic LS formulation in the following matrix notation: $||\widetilde{P}\bar{w} - D||_2^2 + \lambda||w||_1^2$, where $\bar{w}$ is an $n_f^2$-dimensional vector, and $\widetilde{P}$ is an ${n_p \choose 2} \times n_f^2$ matrix. A row of $\widetilde{P}$ corresponds to the distance between the $i^{th}$ and $j^{th}$ phonemes, and a column corresponds to the weight of the $k^{th}$ and $l^{th}$ features from the quadratic form in Eq(1). The elements of $\widetilde{P}$ are therefore of the form: $(p_k^i-p_k^j)(p_l^i-p_l^j)$.
+Rewriting the first term in the objective function, we get a classic LS formulation in the following matrix notation: $||\widetilde{P}\bar{w} - D||_2^2 + \lambda||w||_1^2$, where $\bar{w}$ is an $n_f^2$-dimensional vector, and $\widetilde{P}$ is an ${n_p \choose 2} \times n_f^2$ matrix. A row of $\widetilde{P}$ corresponds to the distance between the $i^{th}$ and $j^{th}$ phonemes, and a column corresponds to the weight of the $k^{th}$ and $l^{th}$ features from the quadratic form in Eq(2.1). The elements of $\widetilde{P}$ are therefore of the form: $(p_k^i-p_k^j)(p_l^i-p_l^j)$.
 
 To solve the L1-regularized least-squares problem, we use the LASSO algorithm \citep{Tibshirani1996}. The regularizer size $\lambda$ is determined by comparing predictions of models with different values of $\lambda$'s. Values of $\lambda$ were examined for 18 values in the range $[10^{-3}, 10^5]$. The optimal size of $\lambda$ was determined according to the maximal prediction on a validation set. We refer to this method of learning a metric function as LS.
 
-\subsubsection{Method B: a large-margin ranking problem} The goal here is to learn a metric function $d(p^i, p^j)$ as in Eq(1), that obeys the following condition \citep{Chechik2010}: a pair of phonemes ($p^i, p^i_+$) that are perceptually closer than another pair ($p^i, p^i_-$), are also closer according to the learned metric function. Formally, for all triplets of phonemes:
+\subsubsection{Method B: a large-margin ranking problem} The goal here is to learn a metric function $d(p^i, p^j)$ as in Eq(2.1), that obeys the following condition \citep{Chechik2010}: a pair of phonemes ($p^i, p^i_+$) that are perceptually closer than another pair ($p^i, p^i_-$), are also closer according to the learned metric function. Formally, for all triplets of phonemes:
 
 \begin{equation}
 \forall{p^i, p^i_+, p^i_-}: D(p^i, p^i_+)<D(p^i, p^i_-) \rightarrow d(p^i, p^i_+)<d(p^i, p^i_-)
 \end{equation}
 
-The hinge-loss function to the constraint in Eq(3) together with a margin is:
+The hinge-loss function to the constraint in Eq(2.4) together with a margin is:
 \begin{equation}
-    l_W(p^i, p^i_+, p^i_-) = max\{0, 1 + d(p^i, p^i_+) - d(p^i, p^i_-)\}
+    l_W(p^i, p^i_+, p^i_-) = max\{0, 1 + d(p^i, p^i_+) - d(p^i, p^i_-)\}.
 \end{equation}
 
 The optimization problem and the algorithm are then solved as in \citet{Chechik2010}. We refer to this method as OASIS.
 
-Note the difference between the LS method and OASIS. In the LS method, the exact values from the empirical data are used to learn the parameters of the model $W$. In contrast, in OASIS, the data values are used only for ranking the empirical distances between phonemes. It is an empirical matter which of the two methods better fits our problem, we therefore explore metric learning of phonemes with both LS and OASIS.
+Note that in the LS method, the exact values from the empirical data are used to learn the parameters of the model $W$, whereas in OASIS, the data values are used for ranking the empirical distances between phonemes. It is an empirical matter which of the two methods better fits our problem, we therefore explore metric learning of phonemes with both LS and OASIS.
 
 \subsubsection{Diagonal constraint} In addition, we test a version of the above two methods when a diagonal-constraint on the parameter matrix $W$ is added. That is, the off-diagonal weights in $W$ are set to zero. The advantage of adding a diagonal constraint is that the model has fewer parameters and it is thus less prone to overfitting. On the other hand, too simple a model may not be able to capture the full structure of the data. We test each method with and without a diagonal constraint. 
 
 \subsection{Baseline methods}
-We compare the predictions of the models to three baselines: \textit{uniform weights}, \textit{PMV} and \textit{Frisch similarity}.
+We compare the predictions of the models to three baselines: \textit{uniform weights}, \textit{PMV} \citep{ladefoged2014course} and \textit{Frisch similarity \citep{Frisch1997}}.
 
-\paragraph{Baseline \#1: uniform weights} The first baseline we test is to set all weights to 1 on the diagonal of $W$, and all other weights to zero.
+\paragraph{Baseline \#1: Uniform weights} $W$ is the identity matrix, with all weights set to 1 on the diagonal, and all other weights to zero.
 
 \paragraph{Baseline \#2: Place-Manner-Voicing (PMV)} A common measure of phoneme similarity counts the number of articulatory dimensions - place, manner and voicing - that are shared by two phonemes. Formally,
 
 \begin{equation}
-S_{PMV}(p_i, p_j) = \delta_{place(p_i),place(p_j)} + \delta_{manner(p_i),manner(p_j)} + \delta_{voicing(p_i),voicing(p_j)}
+S_{PMV}(p_i, p_j) = \delta_{place(p_i),place(p_j)} + \delta_{manner(p_i),manner(p_j)} + \delta_{voicing(p_i),voicing(p_j)} \quad ,
 \end{equation}
 
 where $\delta_{i,j}$ is the Kronecker delta.
 
-\paragraph{Baseline \#3: Frisch similarity} We use the similarity measure suggested in \citet{Frisch1997} as a third baseline method. According to this theory, similarity is calculated based on shared and non-shared natural classes, instead of features:
+\paragraph{Baseline \#3: Frisch similarity \citep{Frisch1997}} Similarity is calculated based on shared and non-shared natural classes, instead of features:
  
 \begin{equation}
-\resizebox{.9\hsize}{!}{$S_{FRISCH}(p_i, p_j) = \frac{\#(shared \quad natural \quad classes)}{\#(shared \quad natural \quad classes) + \#(non-shared \quad natural \quad classes)}$}
+\resizebox{.9\hsize}{!}{$S_{FRISCH}(p_i, p_j) = \frac{\#(shared \quad natural \quad classes)}{\#(shared \quad natural \quad classes) + \#(non-shared \quad natural \quad classes)}$}.
 \end{equation}
 
 By introducing natural classes, similarity becomes dependent on the redundancy of the features. Non-redundant features have more affect on similarity than redundant ones. In particular, a totally redundant feature adds no new natural classes and therefore does not affect similarity. This introduces a weighing to the similarity function that is based on redundancy. \mbox{} \\
@@ -145,7 +147,7 @@ We now describe how the perceived distances ${D_{ij}}$ are estimated from empiri
 where $p_{ij}$ is the proportion of times that $i$ tokens were called $j$. Perceived distances are then calculated following Shepard's law \citep{Shepard1987, Johnson2004}:
 
 \begin{equation}
-    D(p^i, p^j) = -ln(S(p^i, p^j))
+    D(p^i, p^j) = -ln(S(p^i, p^j)).
 \end{equation}
 
 This assumes that the relationship between perceptual distances and similarity is exponential. \citet{Ennis1988} showed that this law can account for various empirical findings about object confusion (in same-different tasks) if decisions between objects are described in a probabilistic framework. That is, percepts are treated as probabilistic and Shepard's law is applied at the stage of decision between objects.
@@ -153,22 +155,4 @@ This assumes that the relationship between perceptual distances and similarity i
 \subsection{Model evaluation}
 To compare the quality of the proposed methods, we evaluate the predictive power of the metric function of each method using a cross-validation procedure. First, for each method, we learn a metric function from a subset of the data. We then assess the prediction of the learned function on left-out data. We repeat this by leaving out a different subset of the data each time, finally averaging the resulting predictions across all left-out subsets. More specifically, we use a leave-one-phoneme-out procedure, where each time, we leave out all perceived distances involving one phoneme. We then repeat this for all phonemes. Finally, we report the average of all resulting values. 
 
-We use the Spearman rank correlation coefficient as a prediction measure. For each left-out phoneme, we calculate the Spearman correlation between the predicted distances to the left-out phoneme according to the model, and those according to the data. The final prediction is the average of this measure across all left-out phonemes, and according to the distribution of these values we evaluate the statistical significance between different methods.
-
-\subsection{Phoneme-confusion in Hebrew}
-To evaluate the perceptual confusability of Hebrew phonemes, we collected data from native Hebrew speakers.
-
-\paragraph{Participants}
-Thirty-two native, monolingual, Hebrew speaking participants (13 males, 19 females), ages: 21-35 (mean - 27.1), participated for course credit.
-
-\paragraph{Stimuli}
-All stimuli were recorded in an anechoic chamber with a RØDE NT2-A microphone and a Metric Halo MIO2882 audio interface, at a sampling rate of 44.1kHz. Stimuli were generated by two male native speakers of Hebrew. The total number of stimuli was 38 (19 phonemes * 2 speakers). Length and pitch (by semi-tone intervals) were compared across recorded tokens to choose the most highly comparable stimulus-types. This was done by looking at differences in timeline arrangement, using built-in pitch tracker in a commercial software (\textit{Logic Pro X}). Further cleaning of noise residues in high resolution mode was done, applying extremely mild reduction levels (using \textit{Waves X-Noise} software). Next, all stimuli were added white noise at -12 SNR and normalized to the same RMS using a commercial software package (MATLAB R2013.a, \textit{The MathWorks Inc., Natick, MA, 2000}). See table A.1 for the full list of phonemes.\footnote{Stimuli are available at: "https://github.com/yairlak/The-perceptually-discriminative-power-of-subphonemic-features"; see README file}
-
-\paragraph{Paradigm}
-Stimuli were presented to participants in triplets, in an AXB manner, in which each token was a CV syllable. The vowel in all syllables was always /a/ since while front vowels (/i/ and /e/) may trigger fronting or palatalization, and non-low back vowels (/u/ and /o/) cause lip rounding, the low vowel /a/ has little effect on the adjacent consonantal phonemes. At each trial, participants were asked to judge whether the middle phoneme (X) is the same as the first phoneme (A) or the last phoneme (B) by pressing one of two keys on the computer keyboard.
-
-For each pair of phonemes {A, B}, all four possible triplets were presented to the participants: (1) AAB, (2) BAA, (3) ABB, and (4) BBA. If the participant was mistaken on either (1) or (2), the result was marked as a confusion of phoneme A with B. If the participant was mistaken on either (3) or (4), the result was marked as a confusion of the phoneme B with A. 
-
-Sessions were conducted in a quiet room. The stimuli were presented in random order via earphones (Sennheiser HD 280 PRO). The Graphical User Interface (GUI) of the experiment was created with MATLAB, and ran on a laptop (Lenovo Yoga 2 Pro). A training session with 10 trials preceded the experiment. During the experiment, a pause was offered by the GUI to the participant every 20 trials. Participants could then decide to continue by pressing a key on the keyboard.
-
-Outliers were discarded based on response time (RT) as follows. For each subject, the mean RT and standard deviation (SD) were calculated across all trials. Trials with RT above the mean plus three SDs were discarded.
+We use the Spearman rank correlation coefficient as a prediction measure. For each left-out phoneme $p$, we calculate the Spearman correlation $\rho_{d^p, D^p}$, between the model-predicted distances to the left-out phoneme $d^p$, and the empirical ones $D^p$. The final evaluation measure of model prediction is the average of this measure across all left-out phonemes $\bar{\rho} = \frac{1}{n_p}\sum_{p=1}^{n_p}\rho_{d^p, D^p}$. According to the distribution of the values $\rho_{d^p, D^p}$ we evaluate statistical significance between different methods.

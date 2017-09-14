@@ -99,7 +99,7 @@ Typically, clinicians use the screening test to diagnose dys\-lexic subjects bas
 
 \paragraph{Model description}
 For test results of a single subject, the joint distribution of the NB1 model factorizes as:
-\[ p(\bar{e}, \bar{w}, d) = p(d) \prod_{i=1}^N p(e_i \mid d) p(w_i) \]
+\[ p(\bar{e}, \bar{w}, d) = p(d) \prod_{i=1}^N p(e_i \mid d) p(w_i) \] \quad ,
 where the subscript $ i $ runs over all word-error pairs in the screening-test. Note that each error is independent of the specific target-word on which it was made. Figure 1.1a describes the plate diagram of the model.
 
 \subsubsection{Word dependent Na\"{\i}ve Bayes Model}
@@ -109,16 +109,16 @@ A more complex model is a Na\"{\i}ve Bayes model in which the probability of an 
 
 \paragraph{Model description}
 In this model the response of the subject $ e_i $ is dependent on the $ i^{th} $ target-word $ w_i $ and on the dyslexia state $ d_i $. Similarly to the NB1 model, the joint distribution for the NB2 factorizes as:
-\[ p(\bar{e}, \bar{w}, d ; \beta) = p(d) \prod_{i=1}^N p(e_i \mid d, w_i ; \beta) p(w_i) \]
+\[ p(\bar{e}, \bar{w}, d ; \beta) = p(d) \prod_{i=1}^N p(e_i \mid d, w_i ; \beta) p(w_i) \] \quad ,
 where the subscript $i$ runs over all word-error pairs in the screening-test as before. Figure 1.1b describes the plate diagram of the model.
 
 \subsection{The LDA model}
 We continue our inquiry with a particular family of Bayesian models that has attracted much attention in the past decade, the Latent Dirichlet Allocation (LDA) Model \citep{bnj03}. The LDA model enables inferring unobserved variables given observed data, and has shown much success in capturing generative processes of text documents \citep{bnj03, rgss04}.
 
 \subsubsection{Model description}
-The LDA model captures the case where a person can suffer from a mixture of different dyslexia subtypes. According to this model, each person has a unique distribution over dyslexia subtypes. Additionally, each dys\-lexia subtype has a unique distribution of expected errors for a given target-word. When a person is reading a target-word, a particular dyslexia subtype is directing the way by which the word is read. The response is then dependent on this dyslexia subtype and the target-word. We therefore define two additional hidden variables. A {\it diagnosis} $ \theta_{s} $, which is a distribution over dyslexia states $ d_i $ for a subject. This distribution is learned from the data. A {\it word-error-dyslexia distribution} $ \phi_{wed} = p(e_i = e \mid w_i = w , d_i= d) $ is a distribution for all subjects in which, given a dyslexia state $d$ and a target-word $w$, each error has a certain probability of occurring. For example, given an LPD state, and the target-word {\it three}, the erroneous response {\it there} would be of high probability, but {\it tree} would be of a lower one. Similarly, given a normal state, and the target-word {\it three}, all error responses would have low probabilities except for the (correct) response {\it three}. 
+The LDA model captures the case where a person can suffer from a mixture of different dyslexia subtypes. According to this model, each person has a unique distribution over dyslexia subtypes. Additionally, each dys\-lexia subtype has a unique distribution of expected errors for a given target-word. When a person reads a target-word, a particular dyslexia subtype is directing the way by which the word is read. The response then dependents both on the dyslexia subtype and the target-word. We therefore define two additional hidden variables: (1) A {\it diagnosis} $ \theta_{s} $, which is a distribution over dyslexia states $ d_i $ for a subject, learned from the data; (2) A {\it word-error-dyslexia distribution} $ \phi_{wed} = p(e_i = e \mid w_i = w , d_i= d) $, which is a distribution for all subjects in which, given a dyslexia state $d$ and a target-word $w$, each error has a certain probability of occurring. For example, given an LPD state, and the target-word {\it three}, the erroneous response {\it there} would be of high probability, but {\it tree} would be of a lower one. Similarly, given a normal state, and the target-word {\it three}, all error responses would have low probabilities except for the (correct) response {\it three}. 
 
-The input to the model is the word-error pairs of all subjects. The hidden variables discovered by the model are: (1) $N$ dyslexia states for each subject; (2) the diagnosis of each subject - $ \theta_{s} $, and (3) a single word-error-dyslexia distribution $ \phi_{wed} $ for all subjects. Figure 1.1c describes the plate diagram of the dyslexia-state model.
+The input to the model is the word-error pairs of all subjects. The hidden variables discovered by the model are: (1) $N$ dyslexia states for each subject; (2) The diagnosis of each subject - $ \theta_{s} $; and (3) A single word-error-dyslexia distribution $ \phi_{wed} $ for all subjects. Figure 1.1c describes the plate diagram of the dyslexia-state model.
 
 \subsubsection{Dirichlet priors}
 The generative process we use to model reading errors uses two Dirichlet priors from which the two distributions $ \theta_{s}$, $\phi_{wed} $ are sampled. Dirichlet priors are often chosen to be uniform. However, adding priors that adequately describe the generative process could enhance model performance. As the subtype approach to dyslexia has developed ways to detect typical reading errors for each dyslexia subtype, this prior knowledge can be incorporated into the LDA model. We tested the model both with this prior knowledge coded into it and without it.
@@ -132,7 +132,7 @@ Gibbs sampling is a form of a Markov Chain Monte Carlo (MCMC) method which is wi
 \begin{equation}
 \begin{split}
 p(d_i = d\mid w_i = w, e_i = e, d_{-i}, w_{-i}, e_{-i}, \alpha, \beta) \propto \\
-\frac{ C_{wed, -i} + \beta_{wed} } {\sum_{e'} [C_{we'd, -i} + \beta_{we'd}] } \frac{ C_{ds, -i} + \alpha_{ds} } {{\sum_{d'}[ C_{d's, -i} + \alpha_{d's}] }},
+\frac{ C_{wed, -i} + \beta_{wed} } {\sum_{e'} [C_{we'd, -i} + \beta_{we'd}] } \frac{ C_{ds, -i} + \alpha_{ds} } {{\sum_{d'}[ C_{d's, -i} + \alpha_{d's}] }} \quad ,
 \end{split}
 \end{equation}
 where, $ d_i=d $ represents the assignment of the $ i^{th} $ word-error pair to dyslexia-state $d$. $ w_i = w $ represents the observation that the $i^{th}$ target-word is $w$, and $e_i = e $ represents the observation that the $i^{th}$ error type is $e$. $ d_{-i} $ represents all dyslexia-state assignments excluding the current $i^{th}$ instant. $ w_{-i} $ represents all target-words observations excluding the current $i^{th}$ instant. Similarly, $ e_{-i} $ represents all target-words observations excluding the current $i^{th}$ instant.
@@ -176,12 +176,12 @@ The posterior distribution for the $i^{th}$ dyslexic state can now be expressed 
 The numerator and denominator of the above fraction, differ only by the counts having the $i^{th}$ pair of word-error in them, whereas all other terms cancel out. The posterior distribution thus results as the above update rule (Eq. 1.1).
 
 \section{Experiments}
-We conduct two experiments with the data. In the first, described in section 1.5.1, we compare three graphical models to find which model most accurately predicts dyslexia diagnosis. In principle, this model can be used to automate dyslexia diagnosis. In the second experiment, described in section 1.5.2, we compare the quality by which these three graphical models predict specific reading errors. The best model to predict errors could contribute to the better characterization of dyslexia.
+We conduct two experiments with the data. In the first, described in section 1.5.2, we compare three graphical models to find which model most accurately predicts dyslexia diagnosis. In principle, this model can be used to automate dyslexia diagnosis. In the second experiment, described in section 1.5.3, we compare the quality by which these three graphical models predict specific reading errors. The best model to predict errors could contribute to the better characterization of dyslexia.
 
 \subsection{Experimental set-up}
 We use two different types of cross validation, first leaving out a set of subjects and then leaving out a set of word readings of the test subjects. Specifically, we randomly split the data into a training-set with 219 subjects (70\%) and a test-set with 94 subjects (30\%), controlled to have the same proportion of subjects which are also diagnosed with Attention Deficit Disorder. See illustration in figure 1.2. The test-set is further divided into two equal-sized sets: a {\textit {\textbf {diagnosis-set}} with 98 pairs of target-words and subject responses, used to infer the diagnosis of test subjects, and a {\textit {\textbf {prediction-set}} also with 98 word-response pairs, used for assessing the predictions of the models. 
 
-\begin{figure}[h]
+\begin{figure}[H]
 \vspace{.3in}
 \includegraphics[width=\linewidth]{Figures/Ch1/trainTest2}
 \caption{Data is partitioned into 3 sets. The dataset is first divided into a \textit {\textbf {training-set}} which contains reading-tests of 70\% of the subjects, and a test-set which contains the remaining 30\% of the data. The test-set is further divided into two subsets, a \textit {\textbf {diagnosis-set}} containing the first halves of the reading-tests, and a \textit {\textbf {prediction-set}} containing the remaining reading-tests of the test subjects.}
@@ -197,10 +197,10 @@ p(d \mid \bar{e}) \propto p(d) \prod_{i = 1}^N [p(e_i \mid d)]^{C_{e_i}}
 \end{equation}
 
 \begin{equation}
-p(d \mid \bar{e}, \bar{w}) \propto p(d) \prod_{i = 1}^N p(e_i \mid d, w_i)
+p(d \mid \bar{e}, \bar{w}) \propto p(d) \prod_{i = 1}^N p(e_i \mid d, w_i) \quad ,
 \end{equation}
 
-where the dyslexia prior $ p(d) $, the probability of error given a dyslexia subtype $ p(e_i |d) $, and the probability of an error given a dyslexia-type and a target-word $ p(e_i \mid d,w_i ) $ are evaluated from the training group.
+where the dyslexia prior $ p(d) $, the probability of error given a dyslexia subtype $ p(e_i |d) $, and the probability of an error given a dyslexia-type and a target-word $ p(e_i \mid d,w_i ) $ are estimated from the training group.
 
 For the LDA model, we train the model on the training-set together with the diagnosis-set. The model is initialized with random dyslexia state assignments $ { \{ \bar{d}_{s} \} }_{s=1}^P $ which are then iteratively sampled according to the sampling rule in $(1)$. At each step of this process, we update the dyslexia distribution per each subject $ \theta_{s} $ and the word-error-dyslexia distribution $ \phi_{wed} $ according to the new sampled dyslexia-state.
 
@@ -209,10 +209,10 @@ The reason we train the model on the training-set and the diagnosis-set together
 We compare the diagnoses given by the three models to those given by experts. The Na\"{\i}ve-Bayes models are known to be strong classifiers and were designed by similar assumptions and guidelines to the ones held by diagnosticians, and therefore their diagnoses are expected to strongly correlate with those given by experts. The LDA model is designed to capture the generative process of the patterns of reading errors, (see section 1.5.2) but may therefore be a worse predictor of dyslexia subtypes. 
 Note also that the diagnoses of the clinicians are given according to the results of the entire screening-tests and the post-tests results, whereas the diagnoses of the models are based on only halves of the screening-tests. This is expected to lower the maximum accuracy for all models.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \vspace{.3in}
 \includegraphics[width=\linewidth]{Figures/Ch1/AUC}
-\caption{Accuracy results for the three graphical models – LDA, NB1 and NB2, with (dark bars) and without (light bars) typical errors priors to NB2 and LDA.}
+\caption{AUC values for the three graphical models – LDA, NB1 and NB2, with (dark bars) and without (light bars) typical errors priors to NB2 and LDA. Error bars denote the standard deviation over random splits of train and test subjects.}
 \vspace{.3in}
 \end{figure}
 
@@ -229,7 +229,7 @@ Figure 1.3 shows the comparison between the accuracy of the models, table 1.1 su
 
 \begin{table}
 \centering
-\caption{Accuracy of the models.} 
+\caption{AUC values for the three models.} 
 
 \begin{tabular}{|c|c|c|c|} \hline
 & NB1 & NB2 & LDA \\
@@ -246,40 +246,38 @@ Priors &  & (0.005) & (0.002) \\
 \hline\end{tabular}
 \bigskip
 
-AUC values for the three models, standard deviation values in parentheses
+AUC values for the three models. Standard deviation values over random split of train and test subjects are in parentheses.
 \end{table}
 
 As expected, the LDA model reasonably correlates with expert diagnosis. Yet, it predicts the same diagnosis as experts in fewer cases than NB2. In the following section we examine whether this is ought to the LDA model being an inaccurate model of dyslexia, or rather the opposite - it may contribute to expert knowledge in capturing dyslexic phenomena.
 
 \subsection{The predictive power of the models}
-Which model of the proposed models (NB1, NB2, LDA) best captures the hidden error patterns in the data, thereby best characterizing dyslexic errors? We answer this by comparing the predictive power of the three models. We evaluate the predictive power of the models using the prediction-set (figure 1.2).
-The perplexity score is commonly used in assessing the predictive power of a language model (e.g., \citealp{bnj03}). Here, it reflects the degree of "surprise" of the models to the errors made by the dyslexic person. Formally it is: 
+Which model of the proposed models (NB1, NB2, LDA) best captures the hidden error patterns in the data, thereby best characterizing dyslexic errors? To answer this, we evaluate the predictive power of the three models using perplexity values over the prediction-set (figure 1.2).
+The perplexity score is commonly used in assessing the predictive power of a language model (e.g., \citealp{bnj03}). It reflects the degree of "surprise" of the models to the errors made by the dyslexic person, and formally defined as: 
 
 \begin{equation}
-Perplexity = \exp{\Bigg\{-\frac{\sum_{s=1}^{N_{test}} log(p(\bar{w_s}, \bar{e_s}))}{\sum_{s=1}^{N_{test}}|\bar{w_s}|}\Bigg\}}
+Perplexity = \exp{\Bigg(-\frac{\sum_{s=1}^{N_{test}} log(p(\bar{w_s}, \bar{e_s}))}{\sum_{s=1}^{N_{test}}|\bar{w_s}|}\Bigg)} \quad .
 \end{equation}
 
-and it is evaluated on the prediction-set, where $ \bar{w_s} $ are the observed target-words and $ \bar{e_s} $ are the error types in the prediction-set of person p. $|\bar{w_s}|$ represents the number of words in the prediction-set ($|\bar{w_s}| = 98$), and $ N_{test} $ is the total number of test subjects ($ N_{test} = 219 $).
+Here, it is evaluated on the prediction-set, where $ \bar{w_s} $ are the observed target-words and $ \bar{e_s} $ are the error types in the prediction-set of person p. $|\bar{w_s}|$ represents the number of words in the prediction-set ($|\bar{w_s}| = 98$), and $ N_{test} $ is the total number of test subjects ($ N_{test} = 219 $).
 
-We also compare the predictive power of NB2 to LDA when provided with priors about the typical errors for each dyslexia subtype. Figure 1.4 shows that the perplexity of these models is lower when provided with priors (figure 1.4: dark curve in panel A and dark bars in panel B). Incorporating expert knowledge into the model therefore increases its predictive power.
+We also compare the predictive power of NB2 to LDA when provided with priors about the typical errors for each dyslexia subtype. Figure 1.4 shows that the perplexity of these two models is lower when provided with priors (figure 1.4: dark curve in panel A and dark bars in panel B). Incorporating expert knowledge into the model therefore increases its predictive power.
 
-The prior value of the diagnosis distribution was set to be uniform with arbitrary value $ \alpha_{dp} = 0.05 $. The lower prior for the word-error-dyslexia distribution was set to $ \beta_{low} = 0.05 $, whereas for the higher prior $ \beta_{high} $, different values were explored. $ \beta_{high} $ is then chosen to be the value that achieves lowest perplexity $ \beta_{high} = 0.7 $ (figure 1.3). The perplexity values for all three models are summarized in figure 1.3b.
+The prior value of the diagnosis distribution was set to be uniform with arbitrary value $ \alpha_{dp} = 0.05 $. The lower prior for the word-error-dyslexia distribution was set to $ \beta_{low} = 0.05 $, whereas for the higher prior $ \beta_{high} $, different values were explored. $ \beta_{high} $ is then chosen to be the value that achieves lowest perplexity $ \beta_{high} = 0.7 $ (figure 1.3). The perplexity values for all three models are summarized in figure 1.4b.
 
-These results show that the best prediction of reading errors is achieved by the LDA model when it is provided with typical-errors priors (figure 1.3B). This result is consistent for different typical-error priors when compared to the NB2 model (figure 4). These results indicate that the LDA model best captures the hidden structure of reading errors, among all three models.
+These results show that the best prediction of reading errors is achieved by the LDA model when it is provided with typical-errors priors (figure 1.4B). This result is consistent for different typical-error priors when compared to the NB2 model (figure 1.5). These results indicate that the LDA model best captures the hidden structure of reading errors, among all three models.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \vspace{.3in}
 \includegraphics[width=\linewidth]{Figures/Ch1/figure5C.jpg}
 \vspace{.3in}
-\caption{Perplexity values calculated for the NB2 and LDA models for varying size of typical-error prior value $\beta_{high}$.}
+\caption{Perplexity calculated for the NB2 and LDA models as a function of $\beta_{high}$, the size of the typical-error prior.}
 \end{figure}
 
 \subsection{The Dyslexia-Attention model of reading}
 In addition to dyslexia, other factors may contribute to reading errors. For instance, people make reading mistakes due to momentarily lowered attention, which may be caused by an attention deficit or simply because they become tired as the diagnostic procedure progresses. These causes may interact with dyslexia. We hypothesized that we could "clean out" incorrect assignments of reading errors to dyslexia, rath\-er than to an unattended state, by disentangling errors caus\-ed by dyslexia from errors caused by low attention. We further hypothesized that by disentangling the two, we could classify between participants which are diagnosed with attention deficit disorder in addition to dyslexia. We therefore designed a model that takes into account the two possible causes of reading errors, specific dyslexia types and a generic low attention state, incorporating the manner in which these change during the diagnostic procedure. Specifically, we added to the LDA-based graphical model a binary random hidden variable marking the attentional state of the subject, attended or unattended, while reading each word. We set these attentional states as a hidden Markov chain, incorporating the dynamics of reading errors in time. We trained the model in a similar way to the LDA-based model, but this time also inferring the hidden attention states and learning the transition probabilities between these states.
 
-When evaluating this model, as in the above experiments, we did not find the Dyslexia-Attention model to improve over the dyslexia-state LDA model. We hypothesize that two reasons may explain the lack of improvement. First, adding the attention hidden variables requires a significantly larger number of parameters, which might be hard to well optimize with the current dataset. It is possible that training the model with an even larger corpus of data would improve the predictions. A second possible reason is that the attentional processes follow a different time scale than the one captured by the current experiments. The time spent in a state in an hidden Markov model follows an exponential distribution, and this may not be an adequate model for switching between attention states. We encourage and intend to further examine this line of research with more accumulating data. 
-
-%\vfill
+When evaluating this model, following the same steps as in the above experiments, we did not find the Dyslexia-Attention model to improve over the dyslexia-state LDA model. We hypothesize that two reasons may explain the lack of improvement. First, adding the attention hidden variables requires a significantly larger number of parameters, which might be hard to well optimize with the current dataset. It is possible that training the model with an even larger corpus of data would improve the predictions. A second possible reason is that the attentional processes follow a different time scale than the one captured by the current experiments. The time spent in a state in an hidden Markov model follows an exponential distribution, and this may not be an adequate model for switching between attention states. 
 
 \section{Discussion}
 This study is a first demonstration of using probabilistic graphical models as a method for analyzing reading errors made by dyslexic people. The work has two main novel contributions: (a) it provides an automatic diagnosis tool of dyslexia, based on data of types of reading errors; (b) it provides probabilistic tools which enable exploring dyslexic phenomena based on reading errors data. By using these tools, the hidden structure of reading errors data, such as the probability of an error-type given a dyslexia and a target-word, may be extracted.
@@ -296,6 +294,6 @@ Another result of this study may serve as an application for diagnosis of dyslex
 
 Finally, the predictive power of the Na\"{\i}ve-Bayes and LDA models is improved when the models are provided with priors which are set according to knowledge of experts from the subtype approach. If the subtype approach were wrong, adding these priors would damage the predictive power of the model rather than improving it. The accuracy of these models is also improved when providing the models with such priors. Our work therefore provides support to the subtype approach to dyslexia, and exemplifies the ability of probabilistic graphical models to shed light on theoretical issues from different research fields, such as reading disorders in the case here.
 
-Our vision is to deploy the algorithm of the NB2 model as a mobile application, providing an accessible, cheap and fast screening test, which allows people to obtain initial screening results, helping them decide whether further diagnosis is needed. This can be achieved by a mobile application which presents a series of words, asks the user to read them aloud, recognizes the spoken words, and uses the diagnosis algorithms described here to provide an initial diagnosis. The main challenge in achieving this is having the speech recognition component recognize utterances that are nonwords. Responses of dyslexic people may differ from existing words, whereas automatic speech recognizers (ASRs) are often trained to provide the most likely word elicited. For example, a subject may read an existing word such as \textit{cloud}, as another existing word \textit{could}, but also as a nonword such as \textit{clud}. This kind of distinction is crucial for the diagnosis. This challenge can be addressed by training and assessing ASR tools on data sets of labeled nonwords.
+The results of this study pave the way for clinical applications, such as using the algorithm of the NB2 model as a mobile application, providing an accessible, cheap and fast screening test, which allows people to obtain initial screening results, helping them decide whether further diagnosis is needed. This can be achieved by a mobile application which presents a series of words, asks the user to read them aloud, recognizes the spoken words, and uses the diagnosis algorithms described here to provide an initial diagnosis. The main challenge in achieving this is having the speech recognition component recognize utterances that are nonwords. Responses of dyslexic people may differ from existing words, whereas automatic speech recognizers (ASRs) are often trained to provide the most likely word elicited. For example, a subject may read an existing word such as \textit{cloud}, as another existing word \textit{could}, but also as a nonword such as \textit{clud}. This kind of distinction is crucial for the diagnosis. This challenge can be addressed by training and assessing ASR tools on data sets of labeled nonwords.
 
 To conclude, this study is a demonstration of the use of probabilistic graphical models as a method of analyzing reading errors data. The progress presented in this paper can also be deployed as a novel, efficient diagnostic tool for dyslexia, based on reading errors only. The Naive-Bayes model tested in this research was compared to labels given by experts in diagnosis of dyslexia, and was found to be an accurate and reliable candidate for an automated tool for initial screening of dyslexia, by its subtypes. 
