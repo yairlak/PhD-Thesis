@@ -4,7 +4,7 @@ We describe learning a metric given a feature set and a phoneme-similarity datas
 \subsection{Representing phonemes in feature space}
 We study phoneme representations in the feature space based on: (a) Articulatory features, and (b) Phonological features. See table 2.1 for the full list of phonemes.
 
-\paragraph{Articulatory features} The first representation scheme uses 14 binary features, based on articulatory features: six place features - labial, dental, alveolar, palatal, velar and glottal, ordered according to the place along the vocal tract (Figure 1B); Seven manner features - plosive, fricative, affricate, lateral, rhotic, nasal, glide, ordered by sonority; And a single voicing feature. As an example, the labial-plosive-unvoiced /p/ is represented  as (1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0), where the first six components are for place of articulation, the next seven components are for manner and the last vector component is for voicing. Another example, the alveolar-nasal-voiced /n/ is represented as (0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1).
+\paragraph{Articulatory features} The first representation scheme uses 14 binary features, based on articulatory features: six place features - labial, dental, alveolar, palatal, velar and glottal, ordered according to the place along the vocal tract; Seven manner features - plosive, fricative, affricate, lateral, rhotic, nasal, glide, ordered by sonority; And a single voicing feature. As an example, the labial-plosive-unvoiced /p/ is represented  as (1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0), where the first six components are for place of articulation, the next seven components are for manner and the last vector component is for voicing. Another example, the alveolar-nasal-voiced /n/ is represented as (0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1).
 
 \paragraph{Phonological features} Phonemes are represented along 12 binary phonological features: consonantal, continuant, strident, voicing, nasality, dorsal, anterior, labial, coronal, distributed and lateral. Continuing with the above examples, /p/ is represented here as (1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0); and /n/ is represented as (1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0). \mbox{} \\
 
@@ -90,7 +90,7 @@ Formulating the problem as a least-squares problem will allow the use of standar
 We define a loss function $\mathcal{L}$ that correspond to the optimization problem in Eq(2.2).
 
 \begin{equation}
-    \mathcal{L} = \sum_{{i} < {j}}{((\bar{p}^i - \bar{p}^j)^TW(\bar{p}^i - \bar{p}^j) - D_{ij})} + \lambda||w||_1^2 \quad ,
+    \mathcal{L} = \sum_{{i} < {j}}{((\bar{p}^i - \bar{p}^j)^TW(\bar{p}^i - \bar{p}^j) - D_{ij})} + \lambda||w||_1^2,
 \end{equation}
 
 where L1-regularization is added to the loss function in its second term. Adding L1-regularization has two advantages. First, it mitigates overfitting to the empirical training data. Second, L1-regularization results in sparser solutions, i.e., a larger number of parameters have values equal to zero \citep{Tibshirani1996}. Importantly, in our case, where feature weights are derived from data collected from a perceptual-discrimination task, non-zero weights that endured this penalty are those that are necessary for explaining the measured perceptual distances. Features that have higher weight are therefore more perceptually discriminative. 
@@ -102,7 +102,7 @@ To solve the L1-regularized least-squares problem, we use the LASSO algorithm \c
 \subsubsection{Method B: a large-margin ranking problem} The goal here is to learn a metric function $d(p^i, p^j)$ as in Eq(2.1), that obeys the following condition \citep{Chechik2010}: a pair of phonemes ($p^i, p^i_+$) that are perceptually closer than another pair ($p^i, p^i_-$), are also closer according to the learned metric function. Formally, for all triplets of phonemes:
 
 \begin{equation}
-\forall{p^i, p^i_+, p^i_-}: D(p^i, p^i_+)<D(p^i, p^i_-) \rightarrow d(p^i, p^i_+)<d(p^i, p^i_-)
+\forall{p^i, p^i_+, p^i_-}: D(p^i, p^i_+)<D(p^i, p^i_-) \rightarrow d(p^i, p^i_+)<d(p^i, p^i_-).
 \end{equation}
 
 The hinge-loss function to the constraint in Eq(2.4) together with a margin is:
@@ -124,7 +124,7 @@ We compare the predictions of the models to three baselines: \textit{uniform wei
 \paragraph{Baseline \#2: Place-Manner-Voicing (PMV)} A common measure of phoneme similarity counts the number of articulatory dimensions - place, manner and voicing - that are shared by two phonemes. Formally,
 
 \begin{equation}
-S_{PMV}(p_i, p_j) = \delta_{place(p_i),place(p_j)} + \delta_{manner(p_i),manner(p_j)} + \delta_{voicing(p_i),voicing(p_j)} \quad ,
+S_{PMV}(p_i, p_j) = \delta_{place(p_i),place(p_j)} + \delta_{manner(p_i),manner(p_j)} + \delta_{voicing(p_i),voicing(p_j)},
 \end{equation}
 
 where $\delta_{i,j}$ is the Kronecker delta.

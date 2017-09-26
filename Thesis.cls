@@ -200,7 +200,7 @@
       \smallskip
       {\LARGE \authornames \par}
       \bigskip
-      {\LARGE Supervisors: Prof. Chechik Gal, Prof. Friedmann Naama}
+      {\LARGE Supervisors: Prof. Gal Chechik, Prof. Naama Friedmann}
       \vfill
       {\large A thesis submitted in partial fulfillment for the \par}
       {\large degree of Doctor of Philosophy \par}

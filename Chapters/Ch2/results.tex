@@ -4,7 +4,7 @@ We describe the results of our experiments with the three datasets. Section 2.4.
 \subsection{Metric learning for phonemes}
 We compare four methods for learning an optimal metric function: LS, diagonal-LS, OASIS, diagonal-OASIS, and compare them to three baseline methods - uniform weights, PMV and Frisch-similarity (sections 2.2.2, 2.2.3). To single out the best method we evaluate the predictive power of the metric function of each method.
 
-\begin{figure*}[t]
+\begin{figure*}[h]
 \vspace{.3in}
 \makebox[\textwidth][c]{\includegraphics[width=\textwidth]{Figures/Ch2/method_comparison.png}}
 \caption{Prediction quality of perceptual distances. For each of the seven methods, the Spearman correlation between the predicted and empirical perceptual distances is calculated, averaged across left-out sets. Error bars represent SD across left-out sets.} 
@@ -58,7 +58,7 @@ Comparing the results of both feature theories, voicing has the highest weight i
 
 We next examine what the Luce dataset reveals about perceptual-discriminative properties of subphonemic features. Figure 2.4 presents the learned weights from the Luce dataset for both features theories.
 
-\begin{figure*}
+\begin{figure*}[h]
 \makebox[\textwidth][c]{\includegraphics[width=\textwidth]{Figures/Ch2/weight_Luce.PNG}}
 \caption{Weights of subphonemic features as derived from the Luce dataset. (A) Articulatory features (B) Phonological features (B). Error bars represent SD across validation sets.}
 \end{figure*}
@@ -71,9 +71,9 @@ We next examine what the Luce dataset reveals about perceptual-discriminative pr
 
 \paragraph{A two-dimensional visualization of perceived distances} To visualize the high-dimensional structure of the perceived distances in the datasets, and the relations between subphonemic features, we use Multi-Dimensional Scaling (MDS) \citep{kruskal1964}, which embeds all perceived distances on the plane. This allows us to qualitatively assess if the learned feature weights are indeed reflected in the visualization of the perceptual distances.
 
-\begin{figure*}[t]
-\makebox[\textwidth][c]{\includegraphics[width=\textwidth]{Figures/Ch2/Slide4.PNG}}
-\caption{Multi-Dimensional Scaling of perceptual distances between phonemes for the  (A) N\&M datset (B) Luce dataset. Ovals: black (dashed line) - voiced phonemes, red (solid line) - nasals, green - distributed stridents (dash-dot line), yellow (dotted line)- approximants}
+\begin{figure*}[h]
+\makebox[\textwidth][c]{\includegraphics[width=\textwidth]{Figures/Ch2/MDS_english.png}}
+\caption{Multi-Dimensional Scaling of perceptual distances between phonemes for the  (A) N\&M datset (B) Luce dataset. Ovals: black (dashed line) - voiced phonemes, red (solid line) - nasals, green - distributed stridents (dash-dot line), yellow (dotted line)- approximants}.
 \end{figure*}
 
 MDS is a method for embedding objects and their pairwise distances onto a lower-dimensional space, where the distances between the objects in the lower-dimensional plane approximate the original distances. MDS was already used to explore the N\&M and other phoneme-confusion dataset \citep{Shepard1980, mielke2008emergence, Buchsbaum2015}, we test it also for the Luce dataset. Figure 2.5 presents the results of embedding the perceptual distances between all phonemes into a 2D-plane for the N\&M dataset (panel A) and for the Luce dataset (panel B). The classes of the resulting four leading features are marked with colored ovals: voiced phonemes with black (dashed line), nasal phonemes with red (solid line), distributed-strident phonemes with green (dash-dot line), and approximant-consonants with yellow (dotted line) - the last is only for the Luce dataset, as there were no approximant phonemes in the N\&M experiment. 
@@ -95,7 +95,7 @@ Results show that omitting high-weight features significantly reduces the predic
 \subsection{Phoneme confusion in Hebrew and English}
 This section analyzes the confusion data of Hebrew in the same way as for English in section 2.4.2. Hebrew phonemes are represented based on two feature theories as described above, and the LS-diagonal method is applied for each of these cases.
 
-\begin{figure*}[t]
+\begin{figure*}[h]
 \vspace{.3in}
 \includegraphics[width=\linewidth]{Figures/Ch2/weight_Heb.PNG}
 \caption{Weights of subphonemic features as derived from the Hebrew dataset. (A) Articulatory features (B) Phonological features. Error bars represent SD across validation sets.}
