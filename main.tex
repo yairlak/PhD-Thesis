@@ -8,6 +8,7 @@
 \usepackage{verbatim}  % Needed for the "comment" environment to make LaTeX comments
 \usepackage{vector}  % Allows "\bvec{}" and "\buvec{}" for "blackboard" style bold vectors in maths
 
+\usepackage{pdfpages}
 \usepackage{lmodern}
 \usepackage[pass]{geometry}
 \usepackage{titlesec}
@@ -34,24 +35,19 @@
 %% ----------------------------------------------------------------
 \begin{document}
 
+% Set font
 \fontfamily{david}\selectfont
-\frontmatter      % Begin Roman style (i, ii, iii, iv...) page numbering
 
-% Set up the Title Page
-\title{A computational study of phoneme representations and errors in reading}
-\authors  {\texorpdfstring
-            {\href{yair.lakretz@gmail.com}{Yair Lakretz}}
-            {Yair Lakretz}
-            }
-\addresses  {\groupname\\\deptname\\\univname}  % Do not change this here, instead these must be set in the "Thesis.cls" file, please look through it instead
-\date       {\today}
-\subject    {}
-\keywords   {}
+% Set line spacing
+\setstretch{1.5} 
 
-\maketitle
-%% ----------------------------------------------------------------
+% Set up the Title page
+\newpage
+\includepdf[pages={1}, offset = 30mm -15mm]{thesis_cover_Eng.pdf}
 
-\setstretch{1.5}  % It is better to have smaller font and larger line spacing than the other way round
+% Begin Roman style (i, ii, iii, iv...) page numbering
+\frontmatter      
+
 
 % Define the page headers using the FancyHdr package and set up for one-sided printing
 \fancyhead{}  % Clears all page headers and footers
@@ -146,14 +142,41 @@
 
 %% ----------------------------------------------------------------
 \setstretch{1.5}  % Set the line spacing to 1.5, this makes the following tables easier to read
-%\clearpage  % Start a new page
-%\lhead{\emph{Abbreviations}}  % Set the left side page header to "Abbreviations"
-%\listofsymbols{ll}  % Include a list of Abbreviations (a table of two columns)
-%{
-% \textbf{Acronym} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or \\
-%\textbf{LAH} & \textbf{L}ist \textbf{A}bbreviations \textbf{H}ere \\
+\clearpage  % Start a new page
+\lhead{\emph{List of Abbreviations}}  % Set the left side page header to "Abbreviations"
+\listofsymbols{ll}  % Include a list of Abbreviations (a table of two columns)
+{
+{\bf AD} & {\bf A}ttentional {\bf D}yslexia \\
+{\bf CV} & {\bf C}onsonant-{\bf V}owel \\
+{\bf AUC} & {\bf A}rea {\bf U}nder the {\bf C}urve \\
+{\bf ECoG} & {\bf E}lectro{\bf C}ortico{\bf G}raphy \\
+{\bf EEG} & {\bf E}lectro{\bf E}ncephalo{\bf G}raphy \\
+{\bf ERP} & {\bf E}vent-{\bf R}erlated {\bf P}otential \\
+{\bf LPD} & {\bf L}etter {\bf P}osition {\bf D}yslexia \\
+{\bf LDA} & {\bf L}atent {\bf D}irichlet {\bf A}llocation \\
+{\bf LFP} & {\bf L}ocal {\bf F}ield {\bf P}otential \\
+{\bf LS} & {\bf L}east {\bf S}quares \\
+{\bf MCMC} & {\bf M}arkov {\bf C}hain {\bf M}onte {\bf C}arlo \\
+{\bf MDS} & {\bf M}ulti {\bf D}imensional {\bf S}calling \\
+{\bf NB} & {\bf N}a\"{i}ve {\bf B}ayes \\
+{\bf ND} & {\bf N}eglect {\bf D}yslexia \\
+{\bf N\&M} & {\bf N}icely and {\bf M}iller \\
+{\bf NS} & {\bf N}ormal {\bf S}tate \\
+{\bf OASIS} & {\bf O}nline {\bf A}lgorithm for {\bf S}calable {\bf I}mage {\bf S}imilarity learning \\
+{\bf PCA} & {\bf P}rincipal {\bf C}omponent {\bf A}nalysis \\
+{\bf PMV} & {\bf P}lace-{\bf M}anner-{\bf V}oicing \\
+{\bf PSTH} & {\bf P}eri-{\bf S}timulus {\bf T}ime {\bf H}istogram \\
+{\bf RT} & {\bf R}esponse {\bf T}ime \\
+{\bf SD} & {\bf S}tandard {\bf D}eviation \\
+{\bf SNR} & {\bf S}ignal-to-{\bf N}oise {\bf R}atio \\
+{\bf STG} & {\bf S}uperior {\bf T}emporal {\bf G}yrus \\
+{\bf STS} & {\bf S}uperior {\bf T}emporal {\bf S}ulcus \\
+{\bf VD} & {\bf V}isual {\bf D}yslexia \\
+{\bf VLD} & {\bf V}owel {\bf L}etter {\bf D}yslexia \\
+{\bf VOT} & {\bf V}oicing {\bf O}nset {\bf T}ime \\
+{\bf vSMC} & {\bf V}entral {\bf S}ensory-{\bf M}otor {\bf C}ortex \\
 
-%}
+}
 
 %% ----------------------------------------------------------------
 % End of the pre-able, contents and lists of things
@@ -171,21 +194,6 @@
 \mainmatter	  % Begin normal, numeric (1,2,3...) page numbering
 \pagestyle{fancy}  % Return the page headers back to the "fancy" style
 
-%\titleformat
-%{\chapter} % command
-%[display] % shape
-%{\bfseries\Large\itshape} % format
-%{} % label
-%{0.5ex} % sep
-%{
-%    \rule{\textwidth}{1pt}
-%    \vspace{1ex}
-%    \centering
-%} % before-code
-%[
-%\vspace{-0.5ex}%
-%\rule{\textwidth}{0.3pt}
-%] % after-code
 \titleformat{\chapter}[display]
 {\normalfont%
     \tiny% %change this size to your needs for the first line
@@ -193,6 +201,10 @@
     \LARGE %change this size to your needs for the second line
     }
 
+
+%% --------------------------------------------------
+%% -------------- INTRO AND CHAPTERS ----------------
+%% --------------------------------------------------
 
 %% General Introduction
 \lhead{\emph{General Introduction}}
@@ -245,28 +257,12 @@
 \lhead{\emph{General Discussion}}
 \input{Chapters/General_Discussion/General_Discussion.tex}
 
-
-%% ----------------------------------------------------------------
-% Now begin the Appendices, including them as separate files
-
-\addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
-
-%\appendix % Cue to tell LaTeX that the following 'chapters' are Appendices
-
-%\input{Appendices/AppendixA}	% Appendix Title
-
-%\input{Appendices/AppendixB} % Appendix Title
-
-%\input{Appendices/AppendixC} % Appendix Title
-
-\addtocontents{toc}{\vspace{2em}}  % Add a gap in the Contents, for aesthetics
-\backmatter
-
 %% ----------------------------------------------------------------
 \label{References}
 \lhead{\emph{References}}  % Change the left side page header to "Bibliography"
 \bibliography{bib_thesis.bib}  % The references (bibliography) information are stored in the file named 
 %\printbibliography
 
+\includepdf[pages={1}, offset = 30mm -15mm]{thesis_cover_Heb.pdf}
 
 \end{document}  % The End
