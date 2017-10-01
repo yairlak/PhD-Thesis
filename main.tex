@@ -56,37 +56,9 @@
 
 \pagestyle{fancy}  % Finally, use the "fancy" page style to implement the FancyHdr headers
 
-%% ----------------------------------------------------------------
-% Declaration Page required for the Thesis, your institution may give you a different text to place here
-%\Declaration{
-
-%\addtocontents{toc}{\vspace{1em}}  % Add a gap in the Contents, for aesthetics
-
-%I declare that this thesis and the work presented in it are my own. I confirm that:
-
-%\begin{itemize} 
-%\item[\tiny{$\blacksquare$}] This work was done wholly or mainly while in candidature for a research degree at this University.
- 
-%\item[\tiny{$\blacksquare$}] Where any part of this thesis has previously been submitted for a degree or any other qualification at this University or any other institution, this has been clearly stated.
- 
-%\item[\tiny{$\blacksquare$}] Where I have consulted the published work of others, this is always clearly attributed.
- 
-%\item[\tiny{$\blacksquare$}] Where I have quoted from the work of others, the source is always given. With the exception of such quotations, this thesis is entirely my own work.
- 
-%\item[\tiny{$\blacksquare$}] I have acknowledged all main sources of help.
- 
-%\item[\tiny{$\blacksquare$}] Where the thesis is based on work done by myself jointly with others, I have made clear exactly what was done by others and what I have contributed myself.
-%\\
-%\end{itemize}
- 
- 
-%Signed:\\
-%\rule[1em]{25em}{0.5pt}  % This prints a line for the signature
- 
-%Date:\\
-%\rule[1em]{25em}{0.5pt}  % This prints a line to write the date
-%}
-%\clearpage  % Declaration ended, now start a new page
+%% ----- ABSTRACT ----------
+%\input{Chapters/abstract.tex}
+\input{Chapters/abstract1.tex}
 
 %% ----------------------------------------------------------------
 % The "Funny Quote Page"
@@ -151,7 +123,7 @@
 {\bf AUC} & {\bf A}rea {\bf U}nder the {\bf C}urve \\
 {\bf ECoG} & {\bf E}lectro{\bf C}ortico{\bf G}raphy \\
 {\bf EEG} & {\bf E}lectro{\bf E}ncephalo{\bf G}raphy \\
-{\bf ERP} & {\bf E}vent-{\bf R}erlated {\bf P}otential \\
+{\bf ERP} & {\bf E}vent-{\bf R}elated {\bf P}otential \\
 {\bf LPD} & {\bf L}etter {\bf P}osition {\bf D}yslexia \\
 {\bf LDA} & {\bf L}atent {\bf D}irichlet {\bf A}llocation \\
 {\bf LFP} & {\bf L}ocal {\bf F}ield {\bf P}otential \\
@@ -211,6 +183,7 @@
 \input{Chapters/General_Intro/General_Intro.tex}
 
 %% Chapter 1
+\chapter{Chapter 1: Probabilistic graphical models of dyslexia}
 \lhead{\emph{Chapter 1: Probabilistic Graphical Models of Dyslexia}}
 \input{Chapters/Ch1/Chapter1KDD}
 \titleformat{\chapter}[display]
@@ -228,6 +201,7 @@
     }
     
 %% Chapter 2
+\chapter{Chapter 2: Perceptual saliencies of subphonemic features}
 \lhead{\emph{Chapter 2: The Perceptually Discriminative Power of Subphonemic Features}}
 %\input{Chapters/Ch2/abstract3.tex}
 %\input{Chapters/Ch2/Intro3.tex}
@@ -250,7 +224,8 @@
     \LARGE %change this size to your needs for the second line
     }
 %% Chapter 3
-\lhead{\emph{Chapter 3: The Functional Organization of Phonemes in the Superior Temporal Gyrus (STG) as Revealed by Spiking Activity}}
+\chapter{Chapter 3: The functional organization of phonemes in the STG}
+\lhead{\emph{Chapter 3: The Functional Organization of Phonemes in the STG}}
 \input{Chapters/Ch3/Chapter3.tex}
 
 %% General Discussion
@@ -263,6 +238,7 @@
 \bibliography{bib_thesis.bib}  % The references (bibliography) information are stored in the file named 
 %\printbibliography
 
+\includepdf[pages={1}, offset = 30mm -15mm]{Abstract_Hebrew.pdf}
 \includepdf[pages={1}, offset = 30mm -15mm]{thesis_cover_Heb.pdf}
 
 \end{document}  % The End

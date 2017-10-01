@@ -4,11 +4,11 @@ We describe the results of our experiments with the three datasets. Section 2.4.
 \subsection{Metric learning for phonemes}
 We compare four methods for learning an optimal metric function: LS, diagonal-LS, OASIS, diagonal-OASIS, and compare them to three baseline methods - uniform weights, PMV and Frisch-similarity (sections 2.2.2, 2.2.3). To single out the best method we evaluate the predictive power of the metric function of each method.
 
-\begin{figure*}[h]
+\begin{figure}[H]
 \vspace{.3in}
 \makebox[\textwidth][c]{\includegraphics[width=\textwidth]{Figures/Ch2/method_comparison.png}}
 \caption{Prediction quality of perceptual distances. For each of the seven methods, the Spearman correlation between the predicted and empirical perceptual distances is calculated, averaged across left-out sets. Error bars represent SD across left-out sets.} 
-\end{figure*}
+\end{figure}
 
 Figure 2.2 compares the average Spearman correlation between the seven methods. Results are shown for both confusion datasets: N\&M dataset, Luce dataset; and for the two feature theories discussed above: articulatory features and phonological features. Model prediction is evaluated in a cross-validation procedure (methods 2.2.5). The prediction of the model is defined as the average Spearman correlation across all validation sets, and the standard deviation is evaluated from the distributions across these sets. To determine the optimal regularizer size model predictions are evaluated on a validation set for various values of the regularization.
 
@@ -45,10 +45,10 @@ Given the sparsity constraint in the optimization problem (section 2.2.2.1), we 
 
 Figure 2.3 shows the learned weights from the N\&M dataset for both the articulatory and phonological-features theories.
 
-\begin{figure*}
+\begin{figure}
 \makebox[\textwidth][c]{\includegraphics[width=\textwidth]{Figures/Ch2/weight_NM.PNG}}
 \caption{Weights of subphonemic features as derived from the Nicely and Miller dataset. (A) Articulatory features (B) Phonological features. Error bars represent SD across validation sets.}
-\end{figure*}
+\end{figure}
 
 \paragraph{Articulatory features} Among the articulatory features, the voicing feature has the highest weight, followed by the nasality feature and then the palatal one. All differences are statistically significant ($p$-value$<10^{-4}$). Next in order are the fricative, velar and labial features, which are statistically comparable. Finally, the alveolar, plosive, and dental features have weights close to zero. Note that similarly to the conclusions from the N\&M study (section 2.3.1), the voicing and nasality features in English are less affected by random noise compared to place features, and other manner features.
 
@@ -58,12 +58,10 @@ Comparing the results of both feature theories, voicing has the highest weight i
 
 We next examine what the Luce dataset reveals about perceptual-discriminative properties of subphonemic features. Figure 2.4 presents the learned weights from the Luce dataset for both features theories.
 
-\begin{figure*}[h]
+\begin{figure}[h]
 \makebox[\textwidth][c]{\includegraphics[width=\textwidth]{Figures/Ch2/weight_Luce.PNG}}
 \caption{Weights of subphonemic features as derived from the Luce dataset. (A) Articulatory features (B) Phonological features (B). Error bars represent SD across validation sets.}
-\end{figure*}
-
-
+\end{figure}
 
 \paragraph{Articulatory features} For the binary representation of articulatory features, the voicing feature has highest weight, followed by nasality, palatal, glide, lateral, glottal and rhotic features, in descending order. All differences are statistically significant (t-test $p$-value$<10^{-4}$) except for the glottal-lateral and glottal-rhotic differences. Next in order are the fricative and velar, which are statistically comparable. The rest of the features - affricate, plosive, labial, dental and alveolar features - have close to zero weights. Similarly to the N\&M dataset, the palatal feature is shared by: /\textipa{S}/, /\textipa{tS}/, and /\textipa{dZ}/, which are all distributed-strident consonants, and also by /\textipa{j}/. As for the glide, lateral, and rhotic features, the corresponding consonant phonemes are /\textipa{w}/ and /\textipa{j}/ (glide phonemes) and /\textipa{l}/ and /\textipa{r}/ (liquid phonemes). These four phonemes are characterized as approximant consonants, as the articulators are closer to each other than for vowels, without creating turbulence in the airflow as is the case with fricative consonants. 
 
@@ -71,10 +69,10 @@ We next examine what the Luce dataset reveals about perceptual-discriminative pr
 
 \paragraph{A two-dimensional visualization of perceived distances} To visualize the high-dimensional structure of the perceived distances in the datasets, and the relations between subphonemic features, we use Multi-Dimensional Scaling (MDS) \citep{kruskal1964}, which embeds all perceived distances on the plane. This allows us to qualitatively assess if the learned feature weights are indeed reflected in the visualization of the perceptual distances.
 
-\begin{figure*}[h]
+\begin{figure}
 \makebox[\textwidth][c]{\includegraphics[width=\textwidth]{Figures/Ch2/MDS_english.png}}
 \caption{Multi-Dimensional Scaling of perceptual distances between phonemes for the  (A) N\&M datset (B) Luce dataset. Ovals: black (dashed line) - voiced phonemes, red (solid line) - nasals, green - distributed stridents (dash-dot line), yellow (dotted line)- approximants}.
-\end{figure*}
+\end{figure}
 
 MDS is a method for embedding objects and their pairwise distances onto a lower-dimensional space, where the distances between the objects in the lower-dimensional plane approximate the original distances. MDS was already used to explore the N\&M and other phoneme-confusion dataset \citep{Shepard1980, mielke2008emergence, Buchsbaum2015}, we test it also for the Luce dataset. Figure 2.5 presents the results of embedding the perceptual distances between all phonemes into a 2D-plane for the N\&M dataset (panel A) and for the Luce dataset (panel B). The classes of the resulting four leading features are marked with colored ovals: voiced phonemes with black (dashed line), nasal phonemes with red (solid line), distributed-strident phonemes with green (dash-dot line), and approximant-consonants with yellow (dotted line) - the last is only for the Luce dataset, as there were no approximant phonemes in the N\&M experiment. 
 
@@ -84,7 +82,7 @@ The MDS analysis provides several insights. First, for both datasets, voiced and
 
 We therefore repeated the above analyses, leaving out a different feature from the representation scheme on each step, and finally estimating the new prediction of the reduced model. We present results for the larger dataset, the Luce dataset: Figure 2.6 presents the differences between the prediction of the full model and the reduced model, in ascending order of size, for each of the left-out features from the representation scheme. The prediction difference is shown for the two feature theories: articulatory features (panel A) and phonological features (panel B). The prediction difference is significant between the voicing and nasality features compared to all other features (t-test $p$-value$<0.05$), whereas results for the voicing and nasality features are statistically comparable. The palatal feature is statistically comparable to the approximant features - glide, lateral and rhotic features - and to the glottal and fricative features, and significantly different compared to the rest of the features.
 
-\begin{figure}
+\begin{figure}[h]
 \vspace{.3in}
 \makebox[\textwidth][c]{\includegraphics[width=\textwidth]{Figures/Ch2/SWR_prediction.PNG}}
 \caption{Reduction in model prediction as a result of omitting a single feature, as calculated for the Luce dataset. (A) Articulatory features (B) Phonological features.}
@@ -95,17 +93,17 @@ Results show that omitting high-weight features significantly reduces the predic
 \subsection{Phoneme confusion in Hebrew and English}
 This section analyzes the confusion data of Hebrew in the same way as for English in section 2.4.2. Hebrew phonemes are represented based on two feature theories as described above, and the LS-diagonal method is applied for each of these cases.
 
-\begin{figure*}[h]
+\begin{figure}[h]
 \vspace{.3in}
 \includegraphics[width=\linewidth]{Figures/Ch2/weight_Heb.PNG}
 \caption{Weights of subphonemic features as derived from the Hebrew dataset. (A) Articulatory features (B) Phonological features. Error bars represent SD across validation sets.}
-\end{figure*}
+\end{figure}
 
 Figure 2.7 shows the resulting feature weights for articulatoy and phonological features. Computed for the Hebrew dataset, results show that as in English datasets, the nasality feature and the approximant features - lateral, glide and rhotic - are heavily weighted. The voicing feature, on the other hand, has much lower weight in Hebrew compared to English. In addition, the labial feature in both articulatory and phonological feature theories has relatively high weight compared to the English results.
 
 The results of MDS analysis on the Hebrew dataset (Figure 2.8A) agree with the results of the metric learning. Nasal phonemes are embedded in the periphery of the plot, as well as the approximants and the glottal phoneme /h/. Unlike the N\&M and Luce embeddings, voiced phonemes are not well separated from unvoiced phonemes. The locations of the labial phonemes /p/ and /f/ in the MDS analysis is peripheral, which corresponds to the relatively high weight of the labial phoneme. 
 
-\begin{figure}
+\begin{figure}[H]
 \vspace{.3in}
 \includegraphics[width=\linewidth]{Figures/Ch2/Slide5.PNG}
 \caption{(A) Multi-Dimensional Scaling for the Hebrew dataset. Ovals: red (solid line) - nasals, yellow (dotted line)- approximants and the glottal /h/(B) Voicing-differing minimal pairs: Hebrew vs. English}
@@ -117,7 +115,7 @@ Figure 2.8B summarizes the differences between the Luce dataset and Hebrew with 
 
 There are ten pairwise distances, five for the contrast between Hebrew and the Luce dataset (blue), and five for the contrast between Hebrew and the N\&M dataset (red). Among the ten points, five points are below the dividing line, three points above, and two reside on the line. There is a bias towards more confusion in Hebrew compared to English, with respect to voiced/voiceless phoneme confusion. This agrees with the relatively low weight of voicing in Hebrew. However, looking at the distribution of distances from the dividing line, this bias is not statistically significant (Wilcoxon rank test $p$-value$=0.57$). A possible confounding for this is the relatively high weight of the labial feature in Hebrew, in particular, the relatively large distance of /p/ and /f/ from other phonemes as can be observed in the MDS analysis. This could counteract the difference between English and Hebrew with respect to voicing. Looking at the distribution of the non-labial phonemes (/d/-/t/, /g/-/k/ and /s/-/z/) the bias towards Hebrew is significant (Wilcoxon rank test $p$-value$<0.05$).
 
-\begin{figure}
+\begin{figure} [H]
 \vspace{.3in}
 \includegraphics[width=\linewidth]{Figures/Ch2/compare_Heb_Luce.PNG}
 \caption{English vs. Hebrew: relative weights of features. Articulatory features in blue, Phonological features in red. Dashed square indicates the magnified area (bottom-right). Features that corresponds to points above the line $y=x$ are more confusable in Hebrew than in English, and vice versa. Feature names are abbreviated according to their three first consonants in their name.}
